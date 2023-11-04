@@ -50,3 +50,7 @@ end
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
 local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {}, 0, 60)
 checkActiveMissionsScheduler:Start()
+
+local medorentaicsar=AICSAR:New(("AI CSAR"), coalition.side.BLUE, "CSARPilot", "AUTOCSAR",AIRBASE:FindByName("Damascus"), ZONE:New("CSARMissionZone"))
+medorentaicsar.helonumber=1
+medorentaicsar.verbose=true

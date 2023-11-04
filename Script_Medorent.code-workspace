@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../MOOSE_INCLUDE/Moose_Include_Static"
+		}
+	],
+	"settings": {}
+}
