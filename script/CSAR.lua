@@ -15,18 +15,19 @@ MedorentCSAR.topmenuname = "Medorent Combat Search & Rescue"
 MedorentCSAR.useprefix = true
 MedorentCSAR.csarPrefix = "CSAR"
 
--- Contatore delle missioni CSAR attive
-local activeCsarMissions = 0
+-- Inizializza variabile activeCsarMissions
+
+local activeCsarMissions = 1
 
 -- Funzione chiamata quando un pilota viene abbattuto
 function MedorentCSAR:OnAfterPilotDown(From, Event, To, SpawnedGroup, Frequency, Leadername, CoordinatesText)
-    activeCsarMissions = activeCsarMissions + 1
+    local activeCsarMissions = self:_CountActiveDownedPilots()
     MESSAGE:New(string.format("Il pilota %s è abbattuto! La frequenza per il CSAR è %s KHz, le coordinate sono %s.", Leadername, Frequency, CoordinatesText), 15):ToAll()
 end
 
 -- Funzione chiamata quando un pilota viene recuperato
 function MedorentCSAR:OnAfterRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
-    activeCsarMissions = activeCsarMissions - 2
+    local activeCsarMissions = self:_CountActiveDownedPilots()
     MESSAGE:New("Missione CSAR terminata con successo. Missioni attive:" .. activeCsarMissions, 30):ToAll()
 end
 
@@ -38,11 +39,12 @@ local csarZone = ZONE:New("CSARMissionZone")
 
 -- Funzione per avviare una nuova missione CSAR
 local function startCsarMission()
+    local activeCsarMissions = MedorentCSAR:_CountActiveDownedPilots()
+    
     -- Controlla se ci sono meno di 5 missioni CSAR attive
-    if activeCsarMissions < 5 then
+    if activeCsarMissions <= 5 then
         -- Avvia una nuova missione CSAR nella zona CSAR
         MedorentCSAR:SpawnCSARAtZone(csarZone, coalition.side.BLUE, "PilotaAbbattuto", true)
-        activeCsarMissions = activeCsarMissions + 1
         MESSAGE:New("Missioni CSAR attive: " .. activeCsarMissions, 30):ToAll()
     end
 end
@@ -50,7 +52,3 @@ end
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
 local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {}, 0, 60)
 checkActiveMissionsScheduler:Start()
-
-local medorentaicsar=AICSAR:New(("AI CSAR"), coalition.side.BLUE, "CSARPilot", "AUTOCSAR",AIRBASE:FindByName("Damascus"), ZONE:New("CSARMissionZone"))
-medorentaicsar.helonumber=1
-medorentaicsar.verbose=true
