@@ -33,36 +33,58 @@ end
     data.table[data.name] = warehouse
 end
 
--- -- Inizializzazione Warehouse con unità
+--------------------------- Inizializzazione Warehouse con unità ---------------------------
 
 -- WarehousesLAND.Incirlik:AddAsset("REDAICAP", 10)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-AirTransportRED", 10, WAREHOUSE.Attribute.AIRTRANSPORT, 90000 )
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-RedTank", 50)
+WarehousesCypro.EastCypro:AddAsset("TEMPL-RedTank", 1)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-RedTruck", 50)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-RedInf", 100)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-SA15", 10)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-RedAAA", 10)
 -- WarehousesLAND.Incirlik:AddAsset("TEMPL-BAISu25", 50)
 
--- -- Funzione per la richiesta semplice di unità: ex. 
--- function RequestResource(fromWarehouse, toWarehouse, groupName, number, transportType)
---     -- DEBUG - Invia messaggio con dati richiesta
---     MESSAGE:New("Richiesta da " .. fromWarehouse:GetAirbaseName() .. " per " .. toWarehouse:GetAirbaseName() .. " di " .. number .. " " .. groupName, 60):ToAll()
---     -- Controlla se le coalizioni dei magazzini sono uguali
---     if fromWarehouse:GetCoalition() ~= toWarehouse:GetCoalition() then
---         print("Richiesta negata: Le coalizioni dei magazzini non sono uguali")
---         return
---     end
---     if transportType == nil then
---         fromWarehouse:AddRequest(toWarehouse, WAREHOUSE.Descriptor.GROUPNAME, groupName, number)
---     else
---         fromWarehouse:AddRequest(toWarehouse, WAREHOUSE.Descriptor.GROUPNAME, groupName, number, transportType)
---     end
--- end
+---------------------------- FINE Inizializzazione Warehouse con unità ---------------------------
 
--- function InitialRequest()
---     RequestResource(WarehousesLAND.Incirlik, WarehousesCypro.Larnaca, "TEMPL-RedTank", 5, WAREHOUSE.TransportType.AIRPLANE)
--- end
+---------------------------- OPZIONI WAREHOUSE ---------------------------
 
--- SchedulazioneIniziale = SCHEDULER:New( nil, InitialRequest, {}, 10, 300, 0, 3600 )
+WarehousesCypro.EastCypro:SetAutoDefenceOn()
+
+
+---------------------------- FINE OPZIONI WAREHOUSE ---------------------------
+
+---------------------------- FUNZIONI WAREHOUSE ---------------------------
+
+ -- Funzione per la richiesta semplice di unità: ex. 
+function RequestResource(fromWarehouse, toWarehouse, groupName, number, transportType)
+     -- DEBUG - Invia messaggio con dati richiesta
+     MESSAGE:New("Richiesta da " .. fromWarehouse:GetAirbaseName() .. " per " .. toWarehouse:GetAirbaseName() .. " di " .. number .. " " .. groupName, 60):ToAll()
+     -- Controlla se le coalizioni dei magazzini sono uguali
+     if fromWarehouse:GetCoalition() ~= toWarehouse:GetCoalition() then
+         print("Richiesta negata: Le coalizioni dei magazzini non sono uguali")
+         return
+     end
+     if transportType == nil then
+         fromWarehouse:AddRequest(toWarehouse, WAREHOUSE.Descriptor.GROUPNAME, groupName, number)
+     else
+         fromWarehouse:AddRequest(toWarehouse, WAREHOUSE.Descriptor.GROUPNAME, groupName, number, transportType)
+     end
+ end
+
+ function InitialRequest()
+     RequestResource(WarehousesLAND.Incirlik, WarehousesCypro.Larnaca, "TEMPL-RedTruck", 5, WAREHOUSE.TransportType.AIRPLANE)
+ end
+
+---------------------------- FINE FUNZIONI WAREHOUSE ---------------------------
+
+ ------------------------------------ SCHEDULAZIONI ------------------------------------
+--SchedulazioneIniziale = SCHEDULER:New( nil, InitialRequest, {}, 10, 300, 0, 3600 )
+
+---------------------------- FINE SCHEDULAZIONI ---------------------------
+
+---------------------------- DEBUG ---------------------------
+
 WAREHOUSE:SetDebugOn()
+
+---------------------------- FINE DEBUG ---------------------------
