@@ -9,22 +9,64 @@ BLU_MissionsHQ = MISSION:New( BLUE_CC, "Missions Dispatch", "Primary", coalition
 
 BLU_MissionsHQ:Start()
 
-CZEastCypro = ZONE:New( "CZ_EASTCYPRO" )
-ZoneCaptureCoalition = ZONE_CAPTURE_COALITION:New( CZEastCypro, coalition.side.RED )
+
+CZ_GAZIPASA = ZONE:New( "Gazipasa" )
+CZCoalitionGazipasa = ZONE_CAPTURE_COALITION:New( CZ_GAZIPASA, coalition.side.RED )
+
+CZ_INCIRLIK = ZONE:New( "Incirlik" )
+CZCoalitionIncirlik = ZONE_CAPTURE_COALITION:New( CZ_INCIRLIK, coalition.side.RED )
+
+CZ_BASSELALASSAD = ZONE:New( "BasselAlAssad" )
+CZCoalitionBasselAlAssad = ZONE_CAPTURE_COALITION:New( CZ_BASSELALASSAD, coalition.side.BLUE )
+
+CZ_PAPHOS = ZONE:New( "Paphos" )
+CZCoalitionPaphos = ZONE_CAPTURE_COALITION:New( CZ_PAPHOS, coalition.side.RED )
+
+CZ_AKROTIRI = ZONE:New( "Akrotiri" )
+CZCoalitionAkrotiri = ZONE_CAPTURE_COALITION:New( CZ_AKROTIRI, coalition.side.RED )
+
+CZ_PINARBASHI = ZONE:New( "Pinarbashi" )
+CZCoalitionPinarbashi = ZONE_CAPTURE_COALITION:New( CZ_PINARBASHI, coalition.side.RED )
+
+CZ_LAKATAMIA = ZONE:New( "Lakatamia" )
+CZCoalitionLakatamia = ZONE_CAPTURE_COALITION:New( CZ_LAKATAMIA, coalition.side.RED )
+
+CZ_ERCAN = ZONE:New( "Ercan" )
+CZCoalitionErcan = ZONE_CAPTURE_COALITION:New( CZ_ERCAN, coalition.side.RED )
+
+CZ_LARNACA = ZONE:New( "Larnaca" )
+CZCoalitionLarnaca = ZONE_CAPTURE_COALITION:New( CZ_LARNACA, coalition.side.RED )
+
+CZ_KINGSFIELD = ZONE:New( "Kingsfield" )
+CZCoalitionKingsfield = ZONE_CAPTURE_COALITION:New( CZ_KINGSFIELD, coalition.side.RED )
+
+CZ_GECITKALE = ZONE:New( "Gecitkale" )
+CZCoalitionGecitkale = ZONE_CAPTURE_COALITION:New( CZ_GECITKALE, coalition.side.RED )
+
+CZ_EASTCYPRO = ZONE:New( "East Cypro" )
+CZCoalitionEastCypro = ZONE_CAPTURE_COALITION:New( CZ_EASTCYPRO, coalition.side.RED )
 
 
---   "CZ_INCIRLIK"
---   "CZ_GAZIPASA"
---   "CZ_BASSELALASSAD"
---   "CZ_PAPHOS"
---   "CZ_AKROTIRI"
---   "CZ_PINARBASHI"
---   "CZ_LAKATAMIA"
---   "CZ_ERCAN"
---   "CZ_LARNACA"
---   "CZ_KINGSFIELD"
---   "CZ_GECITKALE"
---   "CZ_EASTCYPRO"
+
+--------------------------- TEST ---------------------------
+
+-- CaptureZone = ZONE:New( "Alpha" )
+-- CaptureZoneCoalitionApha = ZONE_CAPTURE_COALITION:New( CaptureZone, coalition.side.RED )
+
+-- Funzione per inizializzare una zona specifica
+-- function InitializeSingleZone(zoneName)
+--   local zone = ZONE_BASE:New(zoneName)
+--   zone:SetColor({1, 0, 0}, 0.3) -- Imposta il colore a rosso, per esempio
+--   zone:SetFillColor({1, 0, 0}, 0.15) -- Imposta il colore di riempimento a rosso
+-- end
+
+-- Nome della zona da testare
+-- local testZoneName = "CZ_EASTCYPRO"
+
+-- Chiamare la funzione con il nome della zona di test
+-- InitializeSingleZone(testZoneName)
+
+
 
 
 function ZoneCaptureCoalition:OnEnterGuarded( From, Event, To )
@@ -66,14 +108,19 @@ function ZoneCaptureCoalition:OnEnterCaptured( From, Event, To )
   if From ~= To then
     local Coalition = self:GetCoalition()
     self:E( { Coalition = Coalition } )
+    local zone = ZONE_BASE:New(self:GetZoneName())
     if Coalition == coalition.side.BLUE then
-      ZoneCaptureCoalition:Smoke( SMOKECOLOR.Blue )
+      --ZoneCaptureCoalition:Smoke( SMOKECOLOR.Blue )
       BLUE_CC:MessageTypeToCoalition( string.format( "%s è stata catturata da BLUE!", ZoneCaptureCoalition:GetZoneName() ), MESSAGE.Type.Information )
       RED_CC:MessageTypeToCoalition( string.format( "%s è stata catturata da BLUE!", ZoneCaptureCoalition:GetZoneName() ), MESSAGE.Type.Information )
+      zone:SetColor({0, 0, 1}, 0.3) -- Imposta il colore della zona a blu
+      zone:SetFillColor({0, 0, 1}, 0.15) -- Imposta il colore di riempimento della zona a blu
     else
-      ZoneCaptureCoalition:Smoke( SMOKECOLOR.Red )
+      --ZoneCaptureCoalition:Smoke( SMOKECOLOR.Red )
       RED_CC:MessageTypeToCoalition( string.format( "%s è stata catturata da RED!", ZoneCaptureCoalition:GetZoneName() ), MESSAGE.Type.Information )
       BLUE_CC:MessageTypeToCoalition( string.format( "%s è stata catturata da RED!", ZoneCaptureCoalition:GetZoneName() ), MESSAGE.Type.Information )
+      zone:SetColor({1, 0, 0}, 0.3) -- Imposta il colore della zona a rosso
+      zone:SetFillColor({1, 0, 0}, 0.15) -- Imposta il colore di riempimento della zona a rosso
     end
   end
 end

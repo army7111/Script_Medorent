@@ -13,11 +13,11 @@ MedorentCSAR.topmenuname = "Medorent Combat Search & Rescue"
 
 -- Abilita l'uso del prefisso "CSAR"
 MedorentCSAR.useprefix = true
-MedorentCSAR.csarPrefix = "CSAR"
+MedorentCSAR.csarPrefix = {"CSAR","Helicargo"}
 
 -- Inizializza variabile activeCsarMissions
 
-local activeCsarMissions = 1
+local activeCsarMissions = 0
 
 -- Funzione chiamata quando un pilota viene abbattuto
 function MedorentCSAR:OnAfterPilotDown(From, Event, To, SpawnedGroup, Frequency, Leadername, CoordinatesText)
@@ -50,5 +50,5 @@ local function startCsarMission()
 end
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
-local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {}, 0, 60)
+local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {}, 0, 1800)
 checkActiveMissionsScheduler:Start()
