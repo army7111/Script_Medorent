@@ -31,6 +31,7 @@ BlueHQ:MessageToCoalition("Benvenuti nel Command Center HeliOPS", 30, "Benvenuti
 local HeliOPSMenu = MENU_COALITION:New(coalition.side.BLUE, "HeliOPS")
 local HeliOPSMenuMissioni = MENU_COALITION:New(coalition.side.BLUE, "Missione Dinamica", HeliOPSMenu)
 local HeliOPSMenuMissioniUtility = MENU_COALITION:New(coalition.side.BLUE, "Utility", HeliOPSMenuMissioni)
+local HeliOPSMenuMissioniPattugliaHeli = MENU_COALITION:New(coalition.side.BLUE, "Pattuglia Heli RED", HeliOPSMenuMissioni)
 local HeliOPSMenuMissioniAFAC = MENU_COALITION:New(coalition.side.BLUE, "AFAC", HeliOPSMenuMissioniUtility)
 
 -- voce Radio e azione Spawn/Despawn AFAC
@@ -156,6 +157,31 @@ local HeliOPSDisattivaConvoglio4 = MENU_COALITION_COMMAND:New(coalition.side.BLU
     -- Fine Codice Disattivazione Convoglio 4
 end)
 
+-- Fine Radio Convoglio
+
+-- voce Radio e azione Spawn/Despawn PattugliaHeli "PattugliaHeliScout"
+
+
+SpawnPattugliaHeli = SPAWN:New("PattugliaHeliScout")
+SpawnPattugliaHeli.InitKeepUnitNames = true
+SpawnPattugliaHeli:InitLimit( 3, 200 )
+
+local HeliOPSAttivaPattugliaHeli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Pattuglia Heli", HeliOPSMenuMissioniPattugliaHeli, function ()
+    -- Codice Attivazione PattugliaHeli
+    SpawnPattugliaHeli:Spawn()
+    BlueHQ:MessageToCoalition("Pattuglia Heli Attivata", 20, coalition.side.BLUE, "PattugliaHeli")
+    -- Fine Codice Attivazione PattugliaHeli
+end)
+
+local HeliOPSDisattivaPattugliaHeli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Pattuglia Heli", HeliOPSMenuMissioniPattugliaHeli, function ()
+    -- Codice Disattivazione PattugliaHeli
+    local spawnedGroup = SpawnPattugliaHeli:GetFirstAliveGroup()
+    if spawnedGroup then
+        spawnedGroup:Destroy()
+    end
+    BlueHQ:MessageToCoalition("Pattuglia Heli Disattivata", 20, coalition.side.BLUE, "PattugliaHeli")
+    -- Fine Codice Disattivazione PattugliaHeli
+end)
 
 
 -- Funzione per spawanare i bastardi in modo random nella zona "ZonaBastardi"
@@ -169,6 +195,6 @@ function SpawnaBastardi()
 end
 
 -- Crea un scheduler per spawanare i bastardi ogni 30 minuti 
-local TIMERSpawnStinger = SCHEDULER:New(nil, SpawnaBastardi, {}, 0, 60)
+local TIMERSpawnStinger = SCHEDULER:New(nil, SpawnaBastardi, {}, 0, 1800)
 TIMERSpawnStinger:Start()
 
