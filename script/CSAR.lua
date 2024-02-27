@@ -64,5 +64,5 @@ local function startCsarMission()
 end
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
-local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,30)
+local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,1800)
 checkActiveMissionsScheduler:Start()
