@@ -1,6 +1,10 @@
 -- Crea un nuovo oggetto CSAR per il lato BLUE con il nome "CSARPilot" e il beacon "SOS-Beacon"
 local MedorentCSAR = CSAR:New(coalition.side.BLUE, "CSARPilot", "SOS-Beacon")
-
+MedorentCSAR.enableLoadSave = true -- Abilita il salvataggio e il caricamento delle missioni CSAR
+MedorentCSAR.saveinterval = 60 -- Imposta l'intervallo di salvataggio delle missioni CSAR
+MedorentCSAR.filename = "CSARMedorent.csv" -- Imposta il nome del file per il salvataggio delle missioni CSAR
+MedorentCSAR.filepath = "C:\\temp\\MedorentCache\\CSARSAVES\\"
+MedorentCSAR:__Load(10) -- Carica le missioni CSAR salvate
 -- Imposta le opzioni del CSAR
 MedorentCSAR.immortalcrew = true -- Equipaggio immortale
 MedorentCSAR.invisiblecrew = true -- Equipaggio invisibile
@@ -11,7 +15,7 @@ MedorentCSAR.csarPrefix = {"CSAR","Helicargo"} -- Imposta i prefissi per i CSAR
 
 -- Inizializza variabile activeCsarMissions
 
-local activeCsarMissions = 0
+local activeCsarMissions = MedorentCSAR:_CountActiveDownedPilots()
 
 -- Modifica messaggi Standard
 
@@ -51,9 +55,8 @@ local csarZone = ZONE:New("CSARMissionZone")
 -- Funzione per avviare una nuova missione CSAR
 local function startCsarMission()
     local activeCsarMissions = MedorentCSAR:_CountActiveDownedPilots()
-    
-    -- Controlla se ci sono meno di 5 missioni CSAR attive
-    if activeCsarMissions <= 5 then
+    -- Controlla se ci sono meno di 3 missioni CSAR attive
+    if activeCsarMissions <= 3 then
         -- Avvia una nuova missione CSAR nella zona CSAR
         MedorentCSAR:SpawnCSARAtZone(csarZone, coalition.side.BLUE, "DSMC_NoUp_", true, false, false, "CSAR-Random")
         MESSAGE:New("Missioni CSAR attive: " .. activeCsarMissions, 30):ToAll()
@@ -61,5 +64,5 @@ local function startCsarMission()
 end
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
-local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {}, 0, 10)
+local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,30)
 checkActiveMissionsScheduler:Start()
