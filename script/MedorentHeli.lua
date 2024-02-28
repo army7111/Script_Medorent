@@ -2,19 +2,25 @@
 local BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
 local BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
 
--- Creo la definizione pHer il Detection Group
+-- Creo la definizione per i Detection Group
 local HeliReconGroup = SET_GROUP:New()
 HeliReconGroup:FilterPrefixes("HeliRecon")
 HeliReconGroup:FilterCoalitions("blue")
 HeliReconGroup:FilterStart()
 
+EWGroup = SET_GROUP:New()
+EWGroup:FilterPrefixes("EW")
+EWGroup:FilterCoalitions("blue")
+EWGroup:FilterStart()
+
 -- Creo la zona di rilevamento
 
-local DetectionHeli = DETECTION_AREAS:New(HeliReconGroup, 8000)
+--local EWDetection = DETECTION_AREAS:New(EWGroup, 2000)
+local DetectionHeli = DETECTION_AREAS:New(HeliReconGroup, 5000)
 
 -- Creo le missioni
 local HeliMissions = MISSION:New(BlueHQ, "HeliOPS Missions", "Primary", "Missioni Heli Medorent", coalition.side.BLUE)
-local HeliA2AMissions = MISSION:New( BlueHQ, "HeliOPS A2A Missions", "Secondary", "Missioni A2A Heli Medorent", coalition.side.BLUE )
+--local HeliA2AMissions = MISSION:New( BlueHQ, "HeliOPS A2A Missions", "Secondary", "Missioni A2A Heli Medorent", coalition.side.BLUE )
 
 -- Dichiaro il gruppo di Heli che potrà effettuare le missioni
 local OPSHeli = SET_GROUP:New()
@@ -25,7 +31,7 @@ OPSHeli:FilterStart()
 
 -- Creo i dispatcher e inizializzo
 local HeliReconDispatcher = TASK_A2G_DISPATCHER:New( HeliMissions, OPSHeli, DetectionHeli )
-local HeliA2ADispatcher = TASK_A2A_DISPATCHER:New( HeliA2AMissions, OPSHeli, DetectionHeli )
+--local HeliA2ADispatcher = TASK_A2A_DISPATCHER:New( HeliA2AMissions, OPSHeli, EWDetection )
 BlueHQ:MessageToCoalition("Benvenuti nel Command Center HeliOPS", 30, "Benvenuti")
 
 -- Creo il menu Radio per HeliOPS
