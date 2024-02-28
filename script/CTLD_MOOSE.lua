@@ -19,7 +19,7 @@ ctld_medorent:AddTroopsCargo("Anti-Air Squadra Piccola",{"AA_Inf"},CTLD_CARGO.En
 -- Veicoli in Box
 ctld_medorent:AddCratesCargo("Humvee Scout",{"HeliRecon-"},CTLD_CARGO.Enum.VEHICLE,1,2000)
 ctld_medorent:AddCratesCargo("SHORAD",{"SHORAD_Temp"},CTLD_CARGO.Enum.VEHICLE,2,2775)
-ctld_medorent:AddCratesCargo("Forward Ops Base",{"FOB"},CTLD_CARGO.Enum.FOB,8,2775)
+--ctld_medorent:AddCratesCargo("Forward Ops Base",{"FOB"},CTLD_CARGO.Enum.FOB,8,2775)
 ctld_medorent:AddCratesCargo("Postazione NASAMS Completa",{"NASAMSTemplate"},CTLD_CARGO.Enum.VEHICLE,7,2775)
 ctld_medorent:AddCratesCargo("Paladin Singolo Artiglieria",{"PaladinM109Template"},CTLD_CARGO.Enum.VEHICLE,3,2775)
 
