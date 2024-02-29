@@ -14,7 +14,5 @@ Rayakrange:GetFoullineDistance("StrafePit-1", "Foulline-1")
 --Rayakrange:SetTargetSheet("C:\\temp\\MedorentCache","RayakRange")
 -- Imposta cartella di salvataggio storico Range
 
-Rayakrange:SetSaveFolder("C:\\temp\\MedorentCache")
-
 -- Start Range
 Rayakrange:Start()
