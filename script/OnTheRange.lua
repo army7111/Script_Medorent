@@ -10,7 +10,7 @@ Rayakrange:AddStrafePit(strafepit_gun, nil, nil, nil, true, 5, nil)
 Rayakrange:AddBombingTargets(bombpit, 10)
 Rayakrange:SetDefaultPlayerSmokeBomb(false)
 Rayakrange:GetFoullineDistance("StrafePit-1", "Foulline-1")
-Rayakrange:SetAutoSaveOn(true)
+Rayakrange:SetAutoSaveOn()
 Rayakrange:SetTargetSheet("C:\\temp\\MedorentCache","RayakRange")
 -- Imposta cartella di salvataggio storico Range
 
