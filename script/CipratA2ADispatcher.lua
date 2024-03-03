@@ -14,16 +14,16 @@ local CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Prim
 
 -- AwacsFlightGroup:AddMission(AwacsPatrolAuftrag) -- Avvio script.
 
--- local AwacsTrigger = ZONE:New("AWACSZone")
--- local AwacsCipratt = AUFTRAG.NewAWACS(AwacsTrigger:GetCoordinate() , 25000, 300, 270, 30)
--- AwacsCipratt:SetTime("01:00", "23:00")
--- AwacsCipratt:SetTACAN(29, "AWA")
--- AwacsCipratt:SetRadio(247)
--- AwacsCipratt:SetImmortal(true)
---
--- local AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
--- AwacsCiprattGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
--- AwacsCiprattGroup:AddMission(AwacsCipratt)
+local AwacsTrigger = ZONE:New("AWACSZone")
+local AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 25000, 300, 270, 30)
+AwacsCipratt:SetTime("01:00", "23:00")
+AwacsCipratt:SetTACAN(29, "AWA")
+AwacsCipratt:SetRadio(247)
+AwacsCipratt:SetImmortal(true)
+
+local AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
+AwacsCiprattGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
+AwacsCiprattGroup:AddMission(AwacsCipratt)
 
 -- Fine Func Awacs --
 local CiprattGroup = SET_GROUP:New()

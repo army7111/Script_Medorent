@@ -17,4 +17,4 @@ LarnacaGCI:SetSquadronCap( "CiproSU30Squadron", CiproBorder, 4000, 25000, 800, 1
 LarnacaGCI:SetSquadronCapInterval( "CiproSU30Squadron", 2, 180, 900, 1 )
 
 ----------- Set GCI -------------------------------------
-LarnacaGCI:SetDefaultOverhead( 2 )
+LarnacaGCI:SetDefaultOverhead( 1 )
