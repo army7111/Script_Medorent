@@ -1,6 +1,6 @@
 -- Crea un nuovo Command Center
-BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
-BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
+local BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
+local BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
 
 -- Creo la definizione per i Detection Group
 local HeliReconGroup = SET_GROUP:New()
