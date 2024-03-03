@@ -1,5 +1,5 @@
 -- Crea e attiva CTLD nella missione
-CTLD_medorent = CTLD:New(coalition.side.BLUE, {"Helicargo","CSAR"},"CTLD Medorent")
+CTLD_medorent = CTLD:New(coalition.side.BLUE, {"Helicargo","CSAR","Herccargo"},"CTLD Medorent")
 CTLD_medorent:__Start(5)
 -- Inizio Parametri e opzioni di configurazione
 CTLD_medorent.dropcratesanywhere = true -- Option to allow crates to be dropped anywhere.
