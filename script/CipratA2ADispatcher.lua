@@ -1,8 +1,6 @@
-local BlueCCCipratPosi = GROUP:FindByName("BLUECCCipratUNIT")
-local BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center", "Cipro Attack Command Center")
-local CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
-
--- -- Awacs --
+-- -- Awacs Example --
+-- local AwacsPatrolZone = ZONE:New("AwacsPatrol")
+-- local AwacsPatrolAuftrag = AUFTRAG:NewAWACS(AwacsPatrolZone:GetCoordinate(), 30000, 350, 232, 70)
 -- AwacsPatrolAuftrag:SetTime("8:00", "20:00") -- l'orario di operazioni in Missione , l'awacs tornerà automaticamente alla base per refuel e ritornerà in volo
 -- AwacsPatrolAuftrag:SetTACAN(29, "AWA") -- TACAN e codice morse 
 -- AwacsPatrolAuftrag:SetRadio(247) -- Frequenza radio che utilizzerà l'awacs
@@ -13,9 +11,14 @@ local CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Prim
 -- AwacsFlightGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1) -- impostazione del CALLSIGN che verrà utilizzato dall'Awacs 
 
 -- AwacsFlightGroup:AddMission(AwacsPatrolAuftrag) -- Avvio script.
+-- -- Fine Awacs Example --
+BlueCCCipratPosi = GROUP:FindByName("BLUECCCipratUNIT")
+BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center", "Cipro Attack Command Center")
+CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
 
-local AwacsTrigger = ZONE:New("AWACSZone")
-local AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 25000, 300, 270, 30)
+AwacsTrigger = ZONE:New("AWACSZone")
+AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 30000, 400, 359, 30)
+
 AwacsCipratt:SetTime("01:00", "23:00")
 AwacsCipratt:SetTACAN(29, "AWA")
 AwacsCipratt:SetRadio(247)
@@ -25,7 +28,7 @@ local AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
 AwacsCiprattGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
 AwacsCiprattGroup:AddMission(AwacsCipratt)
 
--- Fine Func Awacs --
+
 local CiprattGroup = SET_GROUP:New()
 CiprattGroup:FilterPrefixes("Ciprat")
 CiprattGroup:FilterCoalitions("blue")
