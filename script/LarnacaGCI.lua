@@ -13,8 +13,8 @@ LarnacaGCI:SetDefaultFuelThreshold( 0.30 )
 LarnacaGCI:SetDefaultLandingAtRunway()
 LarnacaGCI:SetDisengageRadius( 130000 )
 -------- Esecuzione CAP --------------------------------
-LarnacaGCI:SetSquadronCap( "CiproSU30Squadron", CiproBorder, 4000, 25000, 800, 1000, 800, 1000 )
-LarnacaGCI:SetSquadronCapInterval( "CiproSU30Squadron", 2, 180, 900, 1 )
+LarnacaGCI:SetSquadronCap( "CiproSU30Squadron", CiproBorder, 1000, 10000, 750, 900, 800, 1000 )
+LarnacaGCI:SetSquadronCapInterval( "CiproSU30Squadron", 3, 300, 900, 1 )
 
 ----------- Set GCI -------------------------------------
-LarnacaGCI:SetDefaultOverhead( 1 )
+LarnacaGCI:SetDefaultOverhead( 1.5 )

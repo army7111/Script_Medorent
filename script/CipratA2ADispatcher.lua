@@ -19,7 +19,7 @@ CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", 
 AwacsTrigger = ZONE:New("AWACSZone")
 AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 30000, 400, 359, 30)
 
-AwacsCipratt:SetTime("01:00", "23:00")
+AwacsCipratt:SetTime("07:00", "20:00")
 AwacsCipratt:SetTACAN(29, "AWA")
 AwacsCipratt:SetRadio(247)
 AwacsCipratt:SetImmortal(true)
@@ -30,7 +30,7 @@ AwacsCiprattGroup:AddMission(AwacsCipratt)
 
 
 local CiprattGroup = SET_GROUP:New()
-CiprattGroup:FilterPrefixes("Ciprat")
+CiprattGroup:FilterPrefixes("CiprAt")
 CiprattGroup:FilterCoalitions("blue")
 CiprattGroup:FilterStart()
 
@@ -44,3 +44,5 @@ CiprattDetection:SetFriendliesRange(10000)
 CiprattDetection:SetRefreshTimeInterval(30)
 
 local CiprattA2ADispatcher = TASK_A2A_DISPATCHER:New(CiprattMission, CiprattGroup, CiprattDetection)
+--CiprattA2ADispatcher:TraceOn()
+CiprattA2ADispatcher:Start()
