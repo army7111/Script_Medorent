@@ -17,7 +17,7 @@ BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center
 CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
 
 AwacsTrigger = ZONE:New("AWACSZone")
-AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 30000, 400, 359, 30)
+local AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate() , 30000, 400, 359, 30)
 
 AwacsCipratt:SetTime("07:00", "20:00")
 AwacsCipratt:SetTACAN(29, "AWA")
