@@ -22,9 +22,6 @@ TankerAuftragTexaco:SetTACAN(13, "TXC")
 TankerAuftragTexaco:SetRadio(261)
 TankerAuftragTexaco:SetImmortal(true)
 
--- ToDo : Creare i turni per gli awacs da 4 ore che coprono dalle 5 alle 23
-
-
 -- Creazione FlightGroup
 local TankerAuftragArcoGroup=FLIGHTGROUP:New("TankerArco")
 TankerAuftragArcoGroup:SetDefaultCallsign(CALLSIGN.Tanker.Arco, 1)
