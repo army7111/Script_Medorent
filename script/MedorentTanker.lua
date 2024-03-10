@@ -13,13 +13,13 @@ TankerAuftragArco:SetImmortal(true)
 local TankerAuftragShell=AUFTRAG:NewTANKER(ZoneTankerShell:GetCoordinate(), 12000, 230, 44, 50, 0)
 TankerAuftragShell:SetTime("7:00", "20:00")
 TankerAuftragShell:SetTACAN(11, "SHE")
-TankerAuftragShell:SetRadio(263)
+TankerAuftragShell:SetRadio(261)
 TankerAuftragShell:SetImmortal(true)
 
 local TankerAuftragTexaco=AUFTRAG:NewTANKER(ZoneTankerTexaco:GetCoordinate(), 25000, 310, 44, 50, 1)
 TankerAuftragTexaco:SetTime("7:00", "20:00")
 TankerAuftragTexaco:SetTACAN(13, "TXC")
-TankerAuftragTexaco:SetRadio(261)
+TankerAuftragTexaco:SetRadio(263)
 TankerAuftragTexaco:SetImmortal(true)
 
 -- Creazione FlightGroup

@@ -15,12 +15,10 @@ EWGroup:FilterStart()
 
 -- Creo la zona di rilevamento
 
---local EWDetection = DETECTION_AREAS:New(EWGroup, 2000)
 local DetectionHeli = DETECTION_AREAS:New(HeliReconGroup, 5000)
 
 -- Creo le missioni
 local HeliMissions = MISSION:New(BlueHQ, "HeliOPS Missions", "Primary", "Missioni Heli Medorent", coalition.side.BLUE)
---local HeliA2AMissions = MISSION:New( BlueHQ, "HeliOPS A2A Missions", "Secondary", "Missioni A2A Heli Medorent", coalition.side.BLUE )
 
 -- Dichiaro il gruppo di Heli che potrà effettuare le missioni
 local OPSHeli = SET_GROUP:New()
@@ -31,12 +29,11 @@ OPSHeli:FilterStart()
 
 -- Creo i dispatcher e inizializzo
 local HeliReconDispatcher = TASK_A2G_DISPATCHER:New( HeliMissions, OPSHeli, DetectionHeli )
---local HeliA2ADispatcher = TASK_A2A_DISPATCHER:New( HeliA2AMissions, OPSHeli, EWDetection )
 BlueHQ:MessageToCoalition("Benvenuti nel Command Center HeliOPS", 30, "Benvenuti")
 
 -- Creo il menu Radio per HeliOPS
 local HeliOPSMenu = MENU_COALITION:New(coalition.side.BLUE, "HeliOPS")
-local HeliOPSMenuMissioni = MENU_COALITION:New(coalition.side.BLUE, "Missione Dinamica", HeliOPSMenu)
+local HeliOPSMenuMissioni = MENU_COALITION:New(coalition.side.BLUE, "Missione Convogli Heli", HeliOPSMenu)
 local HeliOPSMenuMissioniUtility = MENU_COALITION:New(coalition.side.BLUE, "Utility", HeliOPSMenuMissioni)
 local HeliOPSMenuMissioniPattugliaHeli = MENU_COALITION:New(coalition.side.BLUE, "Pattuglia Heli RED", HeliOPSMenuMissioni)
 local HeliOPSMenuMissioniAFAC = MENU_COALITION:New(coalition.side.BLUE, "AFAC", HeliOPSMenuMissioniUtility)
@@ -89,85 +86,48 @@ end)
 
 local HeliOPSMenuMissioniConvoglio = MENU_COALITION:New(coalition.side.BLUE, "Convogli", HeliOPSMenuMissioni)
 
-SpawnConvoglio1 = SPAWN:New("REDCON-V1")
-SpawnConvoglio2 = SPAWN:New("REDCON-V1-1")
-SpawnConvoglio3 = SPAWN:New("REDCON-V1-2")
-SpawnConvoglio4 = SPAWN:New("REDCON-V1-3")
+SpawnConvoglio1 = SPAWN:New("REDCON-V1"):InitLimit( 6, 1000 )
+SpawnConvoglio2 = SPAWN:New("REDCON-V1-1"):InitLimit( 6, 1000 )
+SpawnConvoglio3 = SPAWN:New("REDCON-V1-2"):InitLimit( 6, 1000 ) 
+SpawnConvoglio4 = SPAWN:New("REDCON-V1-3"):InitLimit( 6, 1000 )
 
-local HeliOPSAttivaConvoglio1 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Convoglio 1", HeliOPSMenuMissioniConvoglio, function ()
+local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Sistema Convogli", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Attivazione Convoglio 1
-    SpawnConvoglio1:Spawn()
-    BlueHQ:MessageToCoalition("Convoglio 1 Attivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Attivazione Convoglio 1
+    SpawnConvoglio1:SpawnScheduled(120, 0.5, true)
+    SpawnConvoglio2:SpawnScheduled(180, 0.5, true)
+    SpawnConvoglio3:SpawnScheduled(240, 0.5, true)
+    SpawnConvoglio4:SpawnScheduled(60, 0.5, true)
+    BlueHQ:MessageToCoalition("Convogli Attivati", 20, coalition.side.BLUE, "Convoglio")
+    -- Fine Codice Attivazione Convogli
 end)
 
-local HeliOPSDisattivaConvoglio1 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 1", HeliOPSMenuMissioniConvoglio, function ()
+local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 1", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Disattivazione Convoglio 1
-    local spawnedGroup = SpawnConvoglio1:GetFirstAliveGroup()
-    if spawnedGroup then
+    local spawnedGroup1 = SpawnConvoglio1:GetLastAliveGroup()
+    local spawnedGroup2 = SpawnConvoglio2:GetLastAliveGroup()
+    local spawnedGroup3 = SpawnConvoglio3:GetLastAliveGroup()
+    local spawnedGroup4 = SpawnConvoglio4:GetLastAliveGroup()
+     
+    if spawnedGroup1 then
         spawnedGroup:Destroy()
     end
-    BlueHQ:MessageToCoalition("Convoglio 1 Disattivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Disattivazione Convoglio 1
-end)
 
-local HeliOPSAttivaConvoglio2 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Convoglio 2", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Attivazione Convoglio 2
-    SpawnConvoglio2:Spawn()
-    BlueHQ:MessageToCoalition("Convoglio 2 Attivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Attivazione Convoglio 2
-end)
-
-local HeliOPSDisattivaConvoglio2 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 2", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Disattivazione Convoglio 2
-    local spawnedGroup = SpawnConvoglio2:GetFirstAliveGroup()
-    if spawnedGroup then
+    if spawnedGroup2 then
         spawnedGroup:Destroy()
     end
-    BlueHQ:MessageToCoalition("Convoglio 2 Disattivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Disattivazione Convoglio 2
-end)
 
-local HeliOPSAttivaConvoglio3 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Convoglio 3", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Attivazione Convoglio 3
-    SpawnConvoglio3:Spawn()
-    BlueHQ:MessageToCoalition("Convoglio 3 Attivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Attivazione Convoglio 3
-end)
-
-local HeliOPSDisattivaConvoglio3 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 3", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Disattivazione Convoglio 3
-    local spawnedGroup = SpawnConvoglio3:GetFirstAliveGroup()
-    if spawnedGroup then
+    if spawnedGroup3 then
         spawnedGroup:Destroy()
     end
-    -- resetta indice initlimit
-    SpawnConvoglio3:InitLimit( 6, 6 )
-    BlueHQ:MessageToCoalition("Convoglio 3 Disattivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Disattivazione Convoglio 3
-end)
 
-local HeliOPSAttivaConvoglio4 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Convoglio 4", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Attivazione Convoglio 4
-    SpawnConvoglio4:Spawn()
-    BlueHQ:MessageToCoalition("Convoglio 4 Attivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Attivazione Convoglio 4
-end)
-
-local HeliOPSDisattivaConvoglio4 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 4", HeliOPSMenuMissioniConvoglio, function ()
-    -- Codice Disattivazione Convoglio 4
-    local spawnedGroup = SpawnConvoglio4:GetFirstAliveGroup()
-    if spawnedGroup then
+    if spawnedGroup4 then
         spawnedGroup:Destroy()
     end
-    BlueHQ:MessageToCoalition("Convoglio 4 Disattivato", 20, coalition.side.BLUE, "Convoglio")
-    -- Fine Codice Disattivazione Convoglio 4
+    BlueHQ:MessageToCoalition("Convogli Disattivati", 20, coalition.side.BLUE, "Convoglio")
+    -- Fine Codice Disattivazione Convogli 
 end)
-
--- Fine Radio Convoglio
 
 -- voce Radio e azione Spawn/Despawn PattugliaHeli "PattugliaHeliScout"
-
 
 SpawnPattugliaHeli = SPAWN:New("PattugliaHeliScout")
 SpawnPattugliaHeli.InitKeepUnitNames = true
@@ -193,7 +153,7 @@ end)
 
 -- Funzione per spawanare i bastardi in modo random nella zona "ZonaBastardi"
 BastardiRandom = SPAWN:New("StingerBastardi")
-BastardiRandom:InitLimit( 8, 4000 )
+BastardiRandom:InitLimit( 8, 100 )
 
 function SpawnaBastardi()
     ZonatriggerBastardi = ZONE:FindByName("ZonaBastardi")
@@ -204,4 +164,3 @@ end
 -- Crea un scheduler per spawanare i bastardi ogni 30 minuti 
 local TIMERSpawnStinger = SCHEDULER:New(nil, SpawnaBastardi, {}, 0, 1800)
 TIMERSpawnStinger:Start()
-
