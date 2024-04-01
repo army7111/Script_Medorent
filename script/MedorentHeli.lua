@@ -101,7 +101,7 @@ local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "A
     -- Fine Codice Attivazione Convogli
 end)
 
-local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 1", HeliOPSMenuMissioniConvoglio, function ()
+local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Sistema Convogli", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Disattivazione Convoglio 1
     local spawnedGroup1 = SpawnConvoglio1:GetLastAliveGroup()
     local spawnedGroup2 = SpawnConvoglio2:GetLastAliveGroup()
