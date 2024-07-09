@@ -43,7 +43,7 @@ TankerAuftragTexacoGroup:AddMission(TankerAuftragTexaco)
 -- Menu per lista INFO (Tacan e Frequenze)
 
 MenuTanker=MENU_COALITION_COMMAND:New( coalition.side.BLUE, "Tanker Info", nil , function ()
-    BlueHQ:MessageToCoalition("Tanker Arco: Tacan 12X, Frequenza 262", 20, coalition.side.BLUE, "Tanker")
     BlueHQ:MessageToCoalition("Tanker Shell: Tacan 11X, Frequenza 261", 20, coalition.side.BLUE, "Tanker")
+    BlueHQ:MessageToCoalition("Tanker Arco: Tacan 12X, Frequenza 262", 20, coalition.side.BLUE, "Tanker")
     BlueHQ:MessageToCoalition("Tanker Texaco: Tacan 13X, Frequenza 263", 20, coalition.side.BLUE, "Tanker")
 end )

@@ -7,10 +7,10 @@ RedSamSpawnEastSA15:InitLimit(2, 100)
 RedSamSpawnEastSA15:SpawnScheduled( 10800, 0.9, false )
 
 
---CyproStratego = STRATEGO:New("CyproStratego",coalition.side.RED, 70)
---CyproStratego:SetUsingBudget(true,500)
---CyproStratego:SetDebug(true,true,true)
---CyproStratego:Start()
+CyproStratego = STRATEGO:New("CyproStratego",coalition.side.RED, 70)
+CyproStratego:SetUsingBudget(true,500)
+CyproStratego:SetDebug(false,false,false)
+CyproStratego:Start()
 
 local czCypro = {
     {table = CZCypro, name = "Paphos", airport = "AIRBASE.Syria.Paphos"},
@@ -27,8 +27,9 @@ local czCypro = {
 -- Inizializza Warehouse Cypro
 
 WarehousesCypro = {}
-
+WarehouseNasi = {}
 local warehouseData = {
+    {table = WarehouseNasi, name = "An Nasiriyah", staticName = "WHAnNasiriyah", warehouseName = "Warehouse An Nasiriyah", airport = "An_Nasiriyah"},
     {table = WarehousesCypro, name = "Paphos", staticName = "WHPAPHOS", warehouseName = "Warehouse Paphos", airport = "Paphos"},
     {table = WarehousesCypro, name = "Akrotiri", staticName = "WHAKROTIRI", warehouseName = "Warehouse Akrotiri", airport = "Akrotiri"},
     {table = WarehousesCypro, name = "Pinarbashi", staticName = "WHPINARBASHI", warehouseName = "Warehouse Pinarbashi", airport = "Pinarbashi"},
@@ -51,23 +52,3 @@ end
     warehouse:Start()
     data.table[data.name] = warehouse
 end
-
-
-
-
--- -- Funzione per il controllo dello stato delle zone strategiche attraverso STRATEGO
--- function CheckStrategoStatus( czCypro)
---     for _, data in ipairs(czCypro) do
---         BASE:E("data.name: " .. data.name)
---         BASE:E("data.airport: " .. data.airport)
---         local nodeopszone = CyproStratego:GetNodeZone(data.name)
---         BASE:E(nodeopszone)
---         local nodecoalition = CyproStratego:GetNodeCoalition(data.name)
---         BASE:E("CyproStratego:GetNodeCoalition = " .. tostring(nodecoalition))
---         local nodeweight = CyproStratego:GetNodeBaseWeight(data.name)
---         BASE:E("CyproStratego:GetNodeBaseWeight" .. tostring(nodeweight))
-
---     end
--- end
--- SchedulaCheck = SCHEDULER:New( nil, CheckStrategoStatus, {czCypro}, 10, 10)
--- SchedulaCheck:Start()

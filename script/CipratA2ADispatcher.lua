@@ -17,32 +17,32 @@ BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center
 CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
 
 AwacsTrigger = ZONE:New("AWACSZone")
-local AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate(), 30000, 400, 359, 30)
+AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate(), 30000, 400, 359, 30)
 
 AwacsCipratt:SetTime("07:00", "20:00")
 -- AwacsCipratt:SetTACAN(29, "AWA")
 AwacsCipratt:SetRadio(247)
 AwacsCipratt:SetImmortal(true)
 
-local AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
+AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
 AwacsCiprattGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
 AwacsCiprattGroup:AddMission(AwacsCipratt)
 
 
-local CiprattGroup = SET_GROUP:New()
+CiprattGroup = SET_GROUP:New()
 CiprattGroup:FilterPrefixes("CiprAt")
 CiprattGroup:FilterCoalitions("blue")
 CiprattGroup:FilterStart()
 
-local CiprattEWGroup = SET_GROUP:New()
+CiprattEWGroup = SET_GROUP:New()
 CiprattEWGroup:FilterPrefixes("CipratEW")
 CiprattEWGroup:FilterCoalitions("blue")
 CiprattEWGroup:FilterStart()
 
-local CiprattDetection = DETECTION_AREAS:New(CiprattEWGroup, 6000)
+CiprattDetection = DETECTION_AREAS:New(CiprattEWGroup, 6000)
 CiprattDetection:SetFriendliesRange(10000)
 CiprattDetection:SetRefreshTimeInterval(30)
 
-local CiprattA2ADispatcher = TASK_A2A_DISPATCHER:New(CiprattMission, CiprattGroup, CiprattDetection)
+CiprattA2ADispatcher = TASK_A2A_DISPATCHER:New(CiprattMission, CiprattGroup, CiprattDetection)
 --CiprattA2ADispatcher:TraceOn()
 CiprattA2ADispatcher:Start()

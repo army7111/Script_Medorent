@@ -14,7 +14,7 @@ Rayakrange:SetDefaultPlayerSmokeBomb(false)
 Rayakrange:GetFoullineDistance("StrafePit-1", "Foulline-1")
 Rayakrange:SetAutosaveOn()
 Rayakrange:SetTargetSheet("C:\\temp\\MedorentCache\\RANGE\\","RayakRange")
-Rayakrange:SetFunkManOn()
+--Rayakrange:SetFunkManOn()
 -- Imposta cartella di salvataggio storico Range
 
 -- Start Range

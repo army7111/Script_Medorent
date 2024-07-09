@@ -20,13 +20,13 @@ local activeCsarMissions = MedorentCSAR:_CountActiveDownedPilots()
 -- Modifica messaggi Standard
 
 function MedorentCSAR:OnAfterPilotDown(From, Event, To, SpawnedGroup, Frequency, Leadername, CoordinatesText)
-    local activeCsarMissions = self:_CountActiveDownedPilots()
+    --local activeCsarMissions = self:_CountActiveDownedPilots()
     MESSAGE:New(string.format("Il pilota %s è abbattuto! La frequenza per il CSAR è %s KHz, le coordinate sono %s.", Leadername, Frequency, CoordinatesText), 15):ToAll()
 end
 -- Funzione chiamata quando un pilota viene recuperato
 function MedorentCSAR:OnAfterRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
     local activeCsarMissions = self:_CountActiveDownedPilots()
-    MESSAGE:New("Missione CSAR terminata con successo. Missioni attive:" .. activeCsarMissions, 30):ToAll()
+    MESSAGE:New(string.format("Missione CSAR terminata con successo. Il pilota %s è alla zona MASH. Missioni attive:", PilotsSaved) .. activeCsarMissions, 30):ToAll()
 end
 -- Funzione chiamata quando Ci si avvicina ad un pilota Abbattuto
 -- function MedorentCSAR:OnAfterApproach(from, event, to, heliname, groupname)
@@ -62,6 +62,10 @@ local function startCsarMission()
         MESSAGE:New("Missioni CSAR attive: " .. activeCsarMissions, 30):ToAll()
     end
 end
+
+local MedorentAICsar = AICSAR:New("MedorentAICsar", "blue", "Pilot", "AICSAR-UH60Template",AIRBASE:FindByName("AICSAR-FARP"), ZONE:New("AIMASHZONE"))
+MedorentAICsar:Start()
+MedorentAICsar:TraceOnOff(true)
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
 local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,1800)
