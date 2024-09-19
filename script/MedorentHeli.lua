@@ -103,29 +103,42 @@ end)
 
 local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Sistema Convogli", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Disattivazione Convoglio 1
-    local spawnedGroup1 = SpawnConvoglio1:GetLastAliveGroup()
-    local spawnedGroup2 = SpawnConvoglio2:GetLastAliveGroup()
-    local spawnedGroup3 = SpawnConvoglio3:GetLastAliveGroup()
-    local spawnedGroup4 = SpawnConvoglio4:GetLastAliveGroup()
-     
-    if spawnedGroup1 then
-        spawnedGroup:Destroy()
+    if SpawnConvoglio1 then
+        local spawnedGroup1 = SpawnConvoglio1:GetLastAliveGroup()
+        if spawnedGroup1 then
+            spawnedGroup1:Destroy()
+            BlueHQ:MessageToCoalition("Convoglio 1 Disattivato", 20, coalition.side.BLUE, "Convoglio")
+        end
     end
 
-    if spawnedGroup2 then
-        spawnedGroup:Destroy()
+    if SpawnConvoglio2 then
+        local spawnedGroup2 = SpawnConvoglio2:GetLastAliveGroup()
+        if spawnedGroup2 then
+            spawnedGroup2:Destroy()
+            BlueHQ:MessageToCoalition("Convoglio 2 Disattivato", 20, coalition.side.BLUE, "Convoglio")
+        end
     end
 
-    if spawnedGroup3 then
-        spawnedGroup:Destroy()
+    if SpawnConvoglio3 then
+        local spawnedGroup3 = SpawnConvoglio3:GetLastAliveGroup()
+        if spawnedGroup3 then
+            spawnedGroup3:Destroy()
+            BlueHQ:MessageToCoalition("Convoglio 3 Disattivato", 20, coalition.side.BLUE, "Convoglio")
+        end
     end
 
-    if spawnedGroup4 then
-        spawnedGroup:Destroy()
+    if SpawnConvoglio4 then
+        local spawnedGroup4 = SpawnConvoglio4:GetLastAliveGroup()
+        if spawnedGroup4 then
+            spawnedGroup4:Destroy()
+            BlueHQ:MessageToCoalition("Convoglio 4 Disattivato", 20, coalition.side.BLUE, "Convoglio")
+        end
     end
-    BlueHQ:MessageToCoalition("Convogli Disattivati", 20, coalition.side.BLUE, "Convoglio")
+
+    BlueHQ:MessageToCoalition("Convogli Disattivati Correttamente", 20, coalition.side.BLUE, "Convoglio")
     -- Fine Codice Disattivazione Convogli 
 end)
+
 
 -- voce Radio e azione Spawn/Despawn PattugliaHeli "PattugliaHeliScout"
 
