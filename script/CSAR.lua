@@ -65,7 +65,7 @@ end
 
 local MedorentAICsar = AICSAR:New("MedorentAICsar", "blue", "Pilot", "AICSAR-UH60Template",AIRBASE:FindByName("AICSAR-FARP"), ZONE:New("AIMASHZONE"))
 MedorentAICsar:Start()
-MedorentAICsar:TraceOnOff(true)
+MedorentAICsar:TraceOnOff(false)
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
 local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,1800)
