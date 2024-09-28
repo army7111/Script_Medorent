@@ -87,45 +87,18 @@ end)
 local HeliOPSMenuMissioniConvoglio = MENU_COALITION:New(coalition.side.BLUE, "Convogli", HeliOPSMenuMissioni)
 
 -- Dichiarazione SPAWN per i convogli
-SpawnConvoglio1 = SPAWN:New("REDCON-V1"):InitLimit( 11, 100, true)
-SpawnConvoglio2 = SPAWN:New("REDCON-V1-1"):InitLimit( 11, 100, true)
-SpawnConvoglio3 = SPAWN:New("REDCON-V1-2"):InitLimit( 11, 100, true) 
-SpawnConvoglio4 = SPAWN:New("REDCON-V1-3"):InitLimit( 11, 100, true)
+SpawnConvoglio1 = SPAWN:New("REDCON-V1"):InitLimit( 6, 300, true)
+SpawnConvoglio2 = SPAWN:New("REDCON-V1-1"):InitLimit( 6, 300, true)
+SpawnConvoglio3 = SPAWN:New("REDCON-V1-2"):InitLimit( 6, 300, true) 
+SpawnConvoglio4 = SPAWN:New("REDCON-V1-3"):InitLimit( 6, 300, true)
 -- Fine Dichiarazione SPAWN per i convogli
 
 local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva/Riattiva Sistema Convogli", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Attivazione Convoglio 1
-    if SpawnConvoglio1 then
-        local spawnedGroup1 = SpawnConvoglio1:GetLastAliveGroup()
-        spawnedGroup1:Destroy()
-        SpawnConvoglio1:SpawnScheduled(240, 0.5, true)
-    else
-        SpawnConvoglio1:SpawnScheduled(240, 0.5, true)
-    end
-
-    if SpawnConvoglio2 then
-        local spawnedGroup2 = SpawnConvoglio2:GetLastAliveGroup()
-        spawnedGroup2:Destroy()
-        SpawnConvoglio2:SpawnScheduled(480, 0.5, true)
-    else
-        SpawnConvoglio2:SpawnScheduled(480, 0.5, true)
-    end
-
-    if SpawnConvoglio3 then
-        local spawnedGroup3 = SpawnConvoglio3:GetLastAliveGroup()
-        spawnedGroup3:Destroy()
-        SpawnConvoglio3:SpawnScheduled(960, 0.5, true)
-    else
-        SpawnConvoglio3:SpawnScheduled(960, 0.5, true)
-    end
-
-    if SpawnConvoglio4 then
-        local spawnedGroup4 = SpawnConvoglio4:GetLastAliveGroup()
-        spawnedGroup4:Destroy()
-        SpawnConvoglio4:SpawnScheduled(60, 0.5, true)
-    else
-        SpawnConvoglio4:SpawnScheduled(60, 0.5, true)
-    end
+        SpawnConvoglio1:Spawn()
+        SpawnConvoglio2:Spawn()
+        SpawnConvoglio3:Spawn()
+        SpawnConvoglio4:Spawn()
     
     BlueHQ:MessageToCoalition("Convogli Attivati", 20, coalition.side.BLUE, "Convoglio")
     -- Fine Codice Attivazione Convogli
