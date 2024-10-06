@@ -1,3 +1,10 @@
+-- Dichiarazione Trigger
+local triggerConvogli1 = ZONE:FindByName("TriggerConv1")
+local triggerConvogli2 = ZONE:FindByName("TriggerConv2")
+local triggerConvogli3 = ZONE:FindByName("TriggerConv3")
+local triggerConvogli4 = ZONE:FindByName("TriggerConv4")
+
+
 -- Crea un nuovo Command Center
 BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
 BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
@@ -87,18 +94,18 @@ end)
 local HeliOPSMenuMissioniConvoglio = MENU_COALITION:New(coalition.side.BLUE, "Convogli", HeliOPSMenuMissioni)
 
 -- Dichiarazione SPAWN per i convogli
-SpawnConvoglio1 = SPAWN:New("REDCON-V1"):InitLimit( 6, 300, true)
-SpawnConvoglio2 = SPAWN:New("REDCON-V1-1"):InitLimit( 6, 300, true)
-SpawnConvoglio3 = SPAWN:New("REDCON-V1-2"):InitLimit( 6, 300, true) 
-SpawnConvoglio4 = SPAWN:New("REDCON-V1-3"):InitLimit( 6, 300, true)
--- Fine Dichiarazione SPAWN per i convogli
+SpawnConvoglio1 = SPAWN:NewWithAlias("REDCON-V1", "Convoglio1"):InitLimit( 6, 1)
+SpawnConvoglio2 = SPAWN:NewWithAlias("REDCON-V1-1", "Convoglio2"):InitLimit( 6, 1)
+SpawnConvoglio3 = SPAWN:NewWithAlias("REDCON-V1-2", "Convoglio3"):InitLimit( 6, 1)
+SpawnConvoglio4 = SPAWN:NewWithAlias("REDCON-V1-3", "Convoglio4"):InitLimit( 6, 1)
 
 local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva/Riattiva Sistema Convogli", HeliOPSMenuMissioniConvoglio, function ()
     -- Codice Attivazione Convoglio 1
-        SpawnConvoglio1:Spawn()
-        SpawnConvoglio2:Spawn()
-        SpawnConvoglio3:Spawn()
-        SpawnConvoglio4:Spawn()
+        SpawnConvoglio1:SpawnInZone(triggerConvogli1)
+        SpawnConvoglio2:SpawnInZone(triggerConvogli2)
+        SpawnConvoglio3:SpawnInZone(triggerConvogli3)
+        SpawnConvoglio4:SpawnInZone(triggerConvogli4)
+        -- Fine Dichiarazione SPAWN per i convogli
     
     BlueHQ:MessageToCoalition("Convogli Attivati", 20, coalition.side.BLUE, "Convoglio")
     -- Fine Codice Attivazione Convogli
@@ -130,10 +137,10 @@ local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE,
         BlueHQ:MessageToCoalition("Convoglio 4 Disattivato", 20, coalition.side.BLUE, "Convoglio")
     end
 
-    SpawnConvoglio1:SpawnScheduleStop()
-    SpawnConvoglio2:SpawnScheduleStop()
-    SpawnConvoglio3:SpawnScheduleStop()
-    SpawnConvoglio4:SpawnScheduleStop()
+    --SpawnConvoglio1:SpawnScheduleStop()
+    --SpawnConvoglio2:SpawnScheduleStop()
+    --SpawnConvoglio3:SpawnScheduleStop()
+    --SpawnConvoglio4:SpawnScheduleStop()
     BlueHQ:MessageToCoalition("Convogli Disattivati Correttamente", 20, coalition.side.BLUE, "Convoglio")
     -- Fine Codice Disattivazione Convogli 
 end)
