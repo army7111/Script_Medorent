@@ -30,7 +30,7 @@ AwacsCiprattGroup:AddMission(AwacsCipratt)
 
 
 CiprattGroup = SET_GROUP:New()
-CiprattGroup:FilterPrefixes("CiprAt")
+CiprattGroup:FilterPrefixes("Bassel Al-Assad_")
 CiprattGroup:FilterCoalitions("blue")
 CiprattGroup:FilterStart()
 
