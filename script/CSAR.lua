@@ -1,5 +1,5 @@
 -- Crea un nuovo oggetto CSAR per il lato BLUE con il nome "CSARPilot" e il beacon "SOS-Beacon"
-local MedorentCSAR = CSAR:New(coalition.side.BLUE, "CSARPilot", "SOS-Beacon")
+MedorentCSAR = CSAR:New(coalition.side.BLUE, "CSARPilot", "SOS-Beacon")
 MedorentCSAR.enableLoadSave = true -- Abilita il salvataggio e il caricamento delle missioni CSAR
 MedorentCSAR.saveinterval = 600 -- Imposta l'intervallo di salvataggio delle missioni CSAR
 MedorentCSAR.filename = "CSARMedorent.csv" -- Imposta il nome del file per il salvataggio delle missioni CSAR
