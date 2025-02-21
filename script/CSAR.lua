@@ -11,7 +11,7 @@ MedorentCSAR.invisiblecrew = true -- Equipaggio invisibile
 MedorentCSAR.allowbronco = true -- Abilita il Bronco come mezzo di recupero
 MedorentCSAR.topmenuname = "Medorent Combat Search & Rescue" -- Imposta il nome del menu principale
 MedorentCSAR.useprefix = true -- Abilita il prefisso per i CSAR
-MedorentCSAR.csarPrefix = {"CSAR","Helicargo"} -- Imposta i prefissi per i CSAR
+MedorentCSAR.csarPrefix = {"Damascus"} -- Imposta i prefissi per i CSAR
 
 -- Inizializza variabile activeCsarMissions
 
@@ -63,9 +63,9 @@ local function startCsarMission()
     end
 end
 
-local MedorentAICsar = AICSAR:New("MedorentAICsar", "blue", "Pilot", "AICSAR-UH60Template",AIRBASE:FindByName("AICSAR-FARP"), ZONE:New("AIMASHZONE"))
-MedorentAICsar:Start()
-MedorentAICsar:TraceOnOff(false)
+-- local MedorentAICsar = AICSAR:New("MedorentAICsar", "blue", "Pilot", "AICSAR-UH60Template",AIRBASE:FindByName("AICSAR-FARP"), ZONE:New("AIMASHZONE"))
+-- MedorentAICsar:Start()
+-- MedorentAICsar:TraceOnOff(false)
 
 -- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
 local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,1800)

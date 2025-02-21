@@ -68,26 +68,26 @@ local HeliOPSDisattivaAFAC = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Di
 end)
 
 -- voce Radio e azione Spawn/Despawn Gazelle
-SpawnGazelle = SPAWN:New("HeliRecon-GazelleAI")
-SpawnGazelle.InitKeepUnitNames = true
-SpawnGazelle:InitLimit( 1, 200 )
+-- SpawnGazelle = SPAWN:New("HeliRecon-GazelleAI")
+-- SpawnGazelle.InitKeepUnitNames = true
+-- SpawnGazelle:InitLimit( 1, 200 )
 
-local HeliOPSAttivaGazelle = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Gazelle", HeliOPSMenuMissioniUtility, function ()
-    -- Codice Attivazione Gazelle
-    SpawnGazelle:Spawn()
-    BlueHQ:MessageToCoalition("Gazelle Attivato", 20, coalition.side.BLUE, "Gazelle")
-    -- Fine Codice Attivazione Gazelle
-end)
+-- local HeliOPSAttivaGazelle = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Gazelle", HeliOPSMenuMissioniUtility, function ()
+--     -- Codice Attivazione Gazelle
+--     SpawnGazelle:Spawn()
+--     BlueHQ:MessageToCoalition("Gazelle Attivato", 20, coalition.side.BLUE, "Gazelle")
+--     -- Fine Codice Attivazione Gazelle
+-- end)
 
-local HeliOPSDisattivaGazelle = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Gazelle", HeliOPSMenuMissioniUtility, function ()
-    -- Codice Disattivazione Gazelle
-    local spawnedGroup = SpawnGazelle:GetFirstAliveGroup()
-    if spawnedGroup then
-        spawnedGroup:Destroy()
-    end
-    BlueHQ:MessageToCoalition("Gazelle Disattivato", 20, coalition.side.BLUE, "Gazelle")
-    -- Fine Codice Disattivazione Gazelle
-end)
+-- local HeliOPSDisattivaGazelle = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Gazelle", HeliOPSMenuMissioniUtility, function ()
+--     -- Codice Disattivazione Gazelle
+--     local spawnedGroup = SpawnGazelle:GetFirstAliveGroup()
+--     if spawnedGroup then
+--         spawnedGroup:Destroy()
+--     end
+--     BlueHQ:MessageToCoalition("Gazelle Disattivato", 20, coalition.side.BLUE, "Gazelle")
+--     -- Fine Codice Disattivazione Gazelle
+-- end)
 
 -- voce Radio e azione Spawn/Despawn Convoglio
 
