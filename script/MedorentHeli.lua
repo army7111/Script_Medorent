@@ -46,7 +46,7 @@ local HeliOPSMenuMissioniPattugliaHeli = MENU_COALITION:New(coalition.side.BLUE,
 local HeliOPSMenuMissioniAFAC = MENU_COALITION:New(coalition.side.BLUE, "AFAC", HeliOPSMenuMissioniUtility)
 
 -- voce Radio e azione Spawn/Despawn AFAC
-SpawnAFAC = SPAWN:New("HeliRecon-AFAC1")
+SpawnAFAC = SPAWN:New("HeliRecon_AFAC1")
 SpawnAFAC.InitKeepUnitNames = true
 SpawnAFAC:InitLimit( 1, 200 )
 
