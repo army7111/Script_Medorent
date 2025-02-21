@@ -29,7 +29,7 @@ local HeliMissions = MISSION:New(BlueHQ, "HeliOPS Missions", "Primary", "Mission
 
 -- Dichiaro il gruppo di Heli che potrà effettuare le missioni
 local OPSHeli = SET_GROUP:New()
-OPSHeli:FilterPrefixes("HeliOPS")
+OPSHeli:FilterPrefixes("Damascus")
 OPSHeli:FilterCoalitions("blue")
 OPSHeli:FilterStart()
 
