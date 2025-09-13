@@ -40,8 +40,9 @@ CiprattEWGroup:FilterCoalitions("blue")
 CiprattEWGroup:FilterStart()
 
 CiprattDetection = DETECTION_AREAS:New(CiprattEWGroup, 6000)
-CiprattDetection:SetFriendliesRange(10000)
-CiprattDetection:SetRefreshTimeInterval(30)
+-- OTTIMIZZAZIONI PERFORMANCE A2A DISPATCHER
+CiprattDetection:SetFriendliesRange(8000)     -- 10000m → 8000m (meno calcoli)
+CiprattDetection:SetRefreshTimeInterval(60)   -- 30s → 60s (-50% carico CPU)
 
 CiprattA2ADispatcher = TASK_A2A_DISPATCHER:New(CiprattMission, CiprattGroup, CiprattDetection)
 --CiprattA2ADispatcher:TraceOn()

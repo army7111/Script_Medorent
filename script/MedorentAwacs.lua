@@ -50,8 +50,8 @@ local CipratAwacsSpawn = SPAWN:New("CipratEW-Awacs")
             checkFuel:Stop()
           end
         end,
-      {}, 30, 300) 
-      -- (partenza del check dopo 30s, e ripetizione ogni 300s)
+      {}, 60, 600) 
+      -- OTTIMIZZAZIONE PERFORMANCE: 30s → 60s start, 300s → 600s interval (-50% overhead)
     end
   )
 

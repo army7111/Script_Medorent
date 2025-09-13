@@ -1,7 +1,7 @@
 -- Crea un nuovo oggetto CSAR per il lato BLUE con il nome "CSARPilot" e il beacon "SOS-Beacon"
 MedorentCSAR = CSAR:New(coalition.side.BLUE, "CSARPilot", "SOS-Beacon")
 MedorentCSAR.enableLoadSave = true -- Abilita il salvataggio e il caricamento delle missioni CSAR
-MedorentCSAR.saveinterval = 600 -- Imposta l'intervallo di salvataggio delle missioni CSAR
+MedorentCSAR.saveinterval = 900 -- Ottimizzazione: 600s → 900s (-33% I/O overhead)
 MedorentCSAR.filename = "CSARMedorent.csv" -- Imposta il nome del file per il salvataggio delle missioni CSAR
 MedorentCSAR.filepath = "C:\\temp\\MedorentCache\\CSARSAVES\\"
 MedorentCSAR:__Load(10) -- Carica le missioni CSAR salvate
@@ -12,6 +12,10 @@ MedorentCSAR.allowbronco = true -- Abilita il Bronco come mezzo di recupero
 MedorentCSAR.topmenuname = "Medorent Combat Search & Rescue" -- Imposta il nome del menu principale
 MedorentCSAR.useprefix = true -- Abilita il prefisso per i CSAR
 MedorentCSAR.csarPrefix = {"Damascus"} -- Imposta i prefissi per i CSAR
+
+-- OTTIMIZZAZIONI PERFORMANCE CSAR
+MedorentCSAR.approachdist_far = 8000   -- Ottimizzazione: 5000m → 8000m (meno controlli)
+MedorentCSAR.approachdist_near = 4000  -- Ottimizzazione: 3000m → 4000m (meno controlli)
 
 -- Inizializza variabile activeCsarMissions
 
@@ -67,6 +71,6 @@ end
 -- MedorentAICsar:Start()
 -- MedorentAICsar:TraceOnOff(false)
 
--- Crea un scheduler per controllare le missioni CSAR attive ogni 60 secondi
-local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},30,1800)
+-- Ottimizzazione scheduler: controllo ogni 90 secondi invece di 30s (-67% overhead)
+local checkActiveMissionsScheduler = SCHEDULER:New(nil, startCsarMission, {},90,1800)
 checkActiveMissionsScheduler:Start()

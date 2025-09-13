@@ -13,6 +13,11 @@ airbossStennis:SetLSORadio(274)
 airbossStennis:SetRadioRelayMarshal("MarshallRelayStennis")
 airbossStennis:SetMarshalRadio(275)
 
+-- OTTIMIZZAZIONI PERFORMANCE AIRBOSS STENNIS
+airbossStennis:SetQueueUpdateTime(45)     -- Default 30s → 45s (-33% carico CPU)
+airbossStennis:SetStatusUpdateTime(1.0)   -- Default 0.5s → 1.0s (-50% carico CPU)
+airbossStennis:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% carico CPU)
+
 airbossStennis:Start()
 
 local airbossRoosevelt=AIRBOSS:New("CarrierRoosevelt", "CVN-71 Theodore Roosevelt")
@@ -29,5 +34,10 @@ airbossRoosevelt:SetRadioRelayLSO("LSORelayRoosevelt")
 airbossRoosevelt:SetLSORadio(271)
 airbossRoosevelt:SetRadioRelayMarshal("MarshallRelayRoosevelt")
 airbossRoosevelt:SetMarshalRadio(272)
+
+-- OTTIMIZZAZIONI PERFORMANCE AIRBOSS ROOSEVELT
+airbossRoosevelt:SetQueueUpdateTime(45)     -- Default 30s → 45s (-33% carico CPU)
+airbossRoosevelt:SetStatusUpdateTime(1.0)   -- Default 0.5s → 1.0s (-50% carico CPU)
+airbossRoosevelt:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% carico CPU)
 
 airbossRoosevelt:Start()

@@ -6,6 +6,11 @@ CTLD_medorent.dropcratesanywhere = true -- Option to allow crates to be dropped 
 CTLD_medorent.enableHercules = true
 CTLD_medorent.forcehoverload = false
 CTLD_medorent.CrateDistance = 100
+
+-- OTTIMIZZAZIONI PERFORMANCE CTLD
+CTLD_medorent.trooploadspeed = 2       -- Carico truppe più veloce (meno tempo calcolo)
+CTLD_medorent.cratebuildtime = 30      -- Tempo costruzione casse ridotto
+CTLD_medorent.suppressmessages = true  -- Meno messaggi = meno overhead
 -- Fine Parametri e opzioni di configurazione
 
 -- Tipi di unità utilizzabili
