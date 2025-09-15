@@ -22,10 +22,10 @@ local CipratAwacsSpawn = SPAWN:New("CipratEW-Awacs")
           if spawnedGroup and spawnedGroup:IsAlive() then
             -- prendo la prima unità
             local unit = spawnedGroup:GetUnit(1)
-            if unit then
+            if unit and unit:IsAlive() then
               local fuel = unit:GetFuel()
               -- Se il fuel scende al di sotto del 20% => RTB e poi atterraggio
-              if fuel <= 0.20 then
+              if fuel and fuel <= 0.20 then
                 env.info("AWACS: Carburante <20%, rientro alla base.")
                 -- Utilizzare il task RTB di DCS invece di CommandRTB che non esiste
                 local rtbTask = {

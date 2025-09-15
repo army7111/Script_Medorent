@@ -63,10 +63,12 @@ end)
 
 local HeliOPSDisattivaAFAC = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva AFAC", HeliOPSMenuMissioniAFAC, function ()
     local spawnedGroup = SpawnAFAC:GetFirstAliveGroup()
-    if spawnedGroup then
+    if spawnedGroup and spawnedGroup:IsAlive() then
         spawnedGroup:Destroy()
+        BlueHQ:MessageToCoalition("AFAC Disattivato", 20, coalition.side.BLUE, "AFAC")
+    else
+        BlueHQ:MessageToCoalition("⚠️ Nessun AFAC attivo da disattivare", 10, coalition.side.BLUE, "AFAC")
     end
-    BlueHQ:MessageToCoalition("AFAC Disattivato", 20, coalition.side.BLUE, "AFAC")
 end)
 
 -- 🔧 NUOVO SISTEMA CONVOGLI COMPLETAMENTE RISCRITTO
@@ -82,6 +84,18 @@ ConvoyStatus.convoy4.spawn = SPAWN:NewWithAlias("REDCON-V1-3", "Convoglio4")
 local function SpawnSingleConvoy(convoyId, zone)
     local convoy = ConvoyStatus[convoyId]
     
+    -- Controlla validità configurazione convoy
+    if not convoy or not convoy.spawn then
+        BlueHQ:MessageToCoalition(string.format("❌ %s: configurazione spawn non valida", convoyId), 10, coalition.side.BLUE)
+        return false
+    end
+    
+    -- Controlla validità zona
+    if not zone then
+        BlueHQ:MessageToCoalition(string.format("❌ %s: zona spawn non trovata", convoyId), 10, coalition.side.BLUE)
+        return false
+    end
+    
     -- Controlla se già attivo
     if convoy.active and convoy.group and convoy.group:IsAlive() then
         BlueHQ:MessageToCoalition(string.format("❌ %s già attivo!", convoyId), 10, coalition.side.BLUE)
@@ -90,7 +104,7 @@ local function SpawnSingleConvoy(convoyId, zone)
     
     -- Spawn nuovo gruppo
     local newGroup = convoy.spawn:SpawnInZone(zone)
-    if newGroup then
+    if newGroup and newGroup:IsAlive() then
         convoy.group = newGroup
         convoy.active = true
         BlueHQ:MessageToCoalition(string.format("✅ %s attivato con successo", convoyId), 10, coalition.side.BLUE)
@@ -98,8 +112,10 @@ local function SpawnSingleConvoy(convoyId, zone)
         -- ✅ NUOVO: Event handler per tracciare distruzione
         function newGroup:OnEventDead()
             env.info(string.format("CONVOY DEBUG: %s destroyed", convoyId))
-            convoy.active = false
-            convoy.group = nil
+            if convoy then -- Extra safety check
+                convoy.active = false
+                convoy.group = nil
+            end
         end
         
         return true
@@ -112,6 +128,11 @@ end
 -- ✅ FUNZIONE HELPER: Destroy singolo convoglio con controllo stato  
 local function DestroySingleConvoy(convoyId)
     local convoy = ConvoyStatus[convoyId]
+    
+    if not convoy then
+        BlueHQ:MessageToCoalition(string.format("❌ %s: configurazione non trovata", convoyId), 10, coalition.side.BLUE)
+        return false
+    end
     
     if convoy.active and convoy.group and convoy.group:IsAlive() then
         convoy.group:Destroy()
@@ -207,10 +228,12 @@ end)
 
 local HeliOPSDisattivaPattugliaHeli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Pattuglia Heli", HeliOPSMenuMissioniPattugliaHeli, function ()
     local spawnedGroup = SpawnPattugliaHeli:GetFirstAliveGroup()
-    if spawnedGroup then
+    if spawnedGroup and spawnedGroup:IsAlive() then
         spawnedGroup:Destroy()
+        BlueHQ:MessageToCoalition("Pattuglia Heli Disattivata", 20, coalition.side.BLUE, "PattugliaHeli")
+    else
+        BlueHQ:MessageToCoalition("⚠️ Nessuna Pattuglia Heli attiva da disattivare", 10, coalition.side.BLUE, "PattugliaHeli")
     end
-    BlueHQ:MessageToCoalition("Pattuglia Heli Disattivata", 20, coalition.side.BLUE, "PattugliaHeli")
 end)
 
 -- ✅ Sistema bastardi random (invariato, funziona)
