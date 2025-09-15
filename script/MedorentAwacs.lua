@@ -27,7 +27,12 @@ local CipratAwacsSpawn = SPAWN:New("CipratEW-Awacs")
               -- Se il fuel scende al di sotto del 20% => RTB e poi atterraggio
               if fuel <= 0.20 then
                 env.info("AWACS: Carburante <20%, rientro alla base.")
-                spawnedGroup:CommandRTB()
+                -- Utilizzare il task RTB di DCS invece di CommandRTB che non esiste
+                local rtbTask = {
+                  id = 'Land',
+                  params = {}
+                }
+                spawnedGroup:SetTask(rtbTask, 1)
 
                 -- Stoppo il check del carburante
                 checkFuel:Stop()

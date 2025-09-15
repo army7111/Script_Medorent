@@ -18,6 +18,16 @@ airbossStennis:SetQueueUpdateTime(45)     -- Default 30s → 45s (-33% carico CP
 airbossStennis:SetStatusUpdateTime(1.0)   -- Default 0.5s → 1.0s (-50% carico CPU)
 airbossStennis:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% carico CPU)
 
+-- FIX PER EventData.IniUnit=nil nei CRASH events (AIRBOSS07335)
+function airbossStennis:OnEventCrash(EventData)
+  if EventData.IniUnit ~= nil then
+    -- Chiama la funzione originale solo se IniUnit è valido
+    self:EventFunction(EventData)
+  else
+    env.info("AIRBOSS CarrierStennis: CRASH event ignorato - EventData.IniUnit=nil")
+  end
+end
+
 airbossStennis:Start()
 
 local airbossRoosevelt=AIRBOSS:New("CarrierRoosevelt", "CVN-71 Theodore Roosevelt")
@@ -39,5 +49,15 @@ airbossRoosevelt:SetMarshalRadio(272)
 airbossRoosevelt:SetQueueUpdateTime(45)     -- Default 30s → 45s (-33% carico CPU)
 airbossRoosevelt:SetStatusUpdateTime(1.0)   -- Default 0.5s → 1.0s (-50% carico CPU)
 airbossRoosevelt:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% carico CPU)
+
+-- FIX PER EventData.IniUnit=nil nei CRASH events (AIRBOSS07353)
+function airbossRoosevelt:OnEventCrash(EventData)
+  if EventData.IniUnit ~= nil then
+    -- Chiama la funzione originale solo se IniUnit è valido
+    self:EventFunction(EventData)
+  else
+    env.info("AIRBOSS CarrierRoosevelt: CRASH event ignorato - EventData.IniUnit=nil")
+  end
+end
 
 airbossRoosevelt:Start()
