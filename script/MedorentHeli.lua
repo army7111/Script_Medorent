@@ -67,7 +67,7 @@ local HeliOPSDisattivaAFAC = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Di
         spawnedGroup:Destroy()
         BlueHQ:MessageToCoalition("AFAC Disattivato", 20, coalition.side.BLUE, "AFAC")
     else
-        BlueHQ:MessageToCoalition("⚠️ Nessun AFAC attivo da disattivare", 10, coalition.side.BLUE, "AFAC")
+        BlueHQ:MessageToCoalition("Nessun AFAC attivo da disattivare", 10, coalition.side.BLUE, "AFAC")
     end
 end)
 
@@ -86,19 +86,19 @@ local function SpawnSingleConvoy(convoyId, zone)
     
     -- Controlla validità configurazione convoy
     if not convoy or not convoy.spawn then
-        BlueHQ:MessageToCoalition(string.format("❌ %s: configurazione spawn non valida", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ERRORE %s: configurazione spawn non valida", convoyId), 10, coalition.side.BLUE)
         return false
     end
     
     -- Controlla validità zona
     if not zone then
-        BlueHQ:MessageToCoalition(string.format("❌ %s: zona spawn non trovata", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ERRORE %s: zona spawn non trovata", convoyId), 10, coalition.side.BLUE)
         return false
     end
     
     -- Controlla se già attivo
     if convoy.active and convoy.group and convoy.group:IsAlive() then
-        BlueHQ:MessageToCoalition(string.format("❌ %s già attivo!", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ATTENZIONE %s già attivo!", convoyId), 10, coalition.side.BLUE)
         return false
     end
     
@@ -107,7 +107,7 @@ local function SpawnSingleConvoy(convoyId, zone)
     if newGroup and newGroup:IsAlive() then
         convoy.group = newGroup
         convoy.active = true
-        BlueHQ:MessageToCoalition(string.format("✅ %s attivato con successo", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("SUCCESSO %s attivato con successo", convoyId), 10, coalition.side.BLUE)
         
         -- ✅ NUOVO: Event handler per tracciare distruzione
         function newGroup:OnEventDead()
@@ -120,7 +120,7 @@ local function SpawnSingleConvoy(convoyId, zone)
         
         return true
     else
-        BlueHQ:MessageToCoalition(string.format("❌ Errore spawn %s", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ERRORE spawn %s", convoyId), 10, coalition.side.BLUE)
         return false
     end
 end
@@ -130,7 +130,7 @@ local function DestroySingleConvoy(convoyId)
     local convoy = ConvoyStatus[convoyId]
     
     if not convoy then
-        BlueHQ:MessageToCoalition(string.format("❌ %s: configurazione non trovata", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ERRORE %s: configurazione non trovata", convoyId), 10, coalition.side.BLUE)
         return false
     end
     
@@ -138,16 +138,16 @@ local function DestroySingleConvoy(convoyId)
         convoy.group:Destroy()
         convoy.active = false
         convoy.group = nil
-        BlueHQ:MessageToCoalition(string.format("🔥 %s disattivato", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("DISATTIVATO %s", convoyId), 10, coalition.side.BLUE)
         return true
     else
-        BlueHQ:MessageToCoalition(string.format("⚠️ %s già inattivo", convoyId), 10, coalition.side.BLUE)
+        BlueHQ:MessageToCoalition(string.format("ATTENZIONE %s già inattivo", convoyId), 10, coalition.side.BLUE)
         return false
     end
 end
 
 -- ✅ MENU PRINCIPALE: Attiva tutti i convogli (o riattiva quelli distrutti)
-local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "🚛 Attiva/Riattiva TUTTI i Convogli", HeliOPSMenuMissioniConvoglio, function ()
+local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva/Riattiva TUTTI i Convogli", HeliOPSMenuMissioniConvoglio, function ()
     local activated = 0
     
     if SpawnSingleConvoy("convoy1", triggerConvogli1) then activated = activated + 1 end
@@ -155,11 +155,11 @@ local HeliOPSAttivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "�
     if SpawnSingleConvoy("convoy3", triggerConvogli3) then activated = activated + 1 end
     if SpawnSingleConvoy("convoy4", triggerConvogli4) then activated = activated + 1 end
     
-    BlueHQ:MessageToCoalition(string.format("📊 Sistema Convogli: %d/4 attivati", activated), 20, coalition.side.BLUE)
+    BlueHQ:MessageToCoalition(string.format("Sistema Convogli: %d/4 attivati", activated), 20, coalition.side.BLUE)
 end)
 
 -- ✅ MENU PRINCIPALE: Disattiva tutti i convogli
-local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "🛑 Disattiva TUTTI i Convogli", HeliOPSMenuMissioniConvoglio, function ()
+local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva TUTTI i Convogli", HeliOPSMenuMissioniConvoglio, function ()
     local deactivated = 0
     
     if DestroySingleConvoy("convoy1") then deactivated = deactivated + 1 end
@@ -167,11 +167,11 @@ local HeliOPSDisattivaConvogli = MENU_COALITION_COMMAND:New(coalition.side.BLUE,
     if DestroySingleConvoy("convoy3") then deactivated = deactivated + 1 end
     if DestroySingleConvoy("convoy4") then deactivated = deactivated + 1 end
     
-    BlueHQ:MessageToCoalition(string.format("📊 Sistema Convogli: %d/4 disattivati", deactivated), 20, coalition.side.BLUE)
+    BlueHQ:MessageToCoalition(string.format("Sistema Convogli: %d/4 disattivati", deactivated), 20, coalition.side.BLUE)
 end)
 
 -- ✅ NUOVO: Menu per controllo individuale convogli
-local HeliOPSMenuConvoyIndividual = MENU_COALITION:New(coalition.side.BLUE, "🎯 Controllo Individuale", HeliOPSMenuMissioniConvoglio)
+local HeliOPSMenuConvoyIndividual = MENU_COALITION:New(coalition.side.BLUE, "Controllo Individuale", HeliOPSMenuMissioniConvoglio)
 
 -- Menu individuali per ogni convoglio
 MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Attiva Convoglio 1", HeliOPSMenuConvoyIndividual, function()
@@ -207,10 +207,10 @@ MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Disattiva Convoglio 4", HeliOPS
 end)
 
 -- ✅ NUOVO: Menu per status
-MENU_COALITION_COMMAND:New(coalition.side.BLUE, "📊 Status Convogli", HeliOPSMenuMissioniConvoglio, function()
+MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Status Convogli", HeliOPSMenuMissioniConvoglio, function()
     local status = "STATUS CONVOGLI:\n"
     for id, convoy in pairs(ConvoyStatus) do
-        local state = convoy.active and "🟢 ATTIVO" or "🔴 INATTIVO"
+        local state = convoy.active and "ATTIVO" or "INATTIVO"
         status = status .. string.format("%s: %s\n", id:upper(), state)
     end
     BlueHQ:MessageToCoalition(status, 15, coalition.side.BLUE)
@@ -232,7 +232,7 @@ local HeliOPSDisattivaPattugliaHeli = MENU_COALITION_COMMAND:New(coalition.side.
         spawnedGroup:Destroy()
         BlueHQ:MessageToCoalition("Pattuglia Heli Disattivata", 20, coalition.side.BLUE, "PattugliaHeli")
     else
-        BlueHQ:MessageToCoalition("⚠️ Nessuna Pattuglia Heli attiva da disattivare", 10, coalition.side.BLUE, "PattugliaHeli")
+        BlueHQ:MessageToCoalition("Nessuna Pattuglia Heli attiva da disattivare", 10, coalition.side.BLUE, "PattugliaHeli")
     end
 end)
 

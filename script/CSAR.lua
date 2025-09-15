@@ -26,7 +26,7 @@ MedorentCSAR.approachdist_near = 4000  -- Ottimizzazione: 3000m → 4000m (meno 
 -- 🔧 DEBUG: AGGIUNGI LOGGING PER EVENTI CRITICI
 function MedorentCSAR:OnAfterLanded(From, Event, To, HeliName, Airbase)
     -- ✅ NUOVO: Debug per atterraggi
-    local message = string.format("🚁 Elicottero %s atterrato alla base: %s", HeliName, Airbase:GetName())
+    local message = string.format("Elicottero %s atterrato alla base: %s", HeliName, Airbase:GetName())
     MESSAGE:New(message, 10):ToAll()
     env.info("CSAR DEBUG - Landed: " .. message)
 end
@@ -34,7 +34,7 @@ end
 function MedorentCSAR:OnAfterRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
     -- ✅ MIGLIORATO: Messaggio più chiaro + debug
     local activeCsarMissions = self:_CountActiveDownedPilots()
-    local message = string.format("✅ CSAR COMPLETATO! %d piloti salvati da %s. Missioni attive: %d", 
+    local message = string.format("CSAR COMPLETATO! %d piloti salvati da %s. Missioni attive: %d", 
                                  PilotsSaved, HeliName, activeCsarMissions)
     MESSAGE:New(message, 30):ToAll()
     env.info("CSAR DEBUG - Rescued: " .. message)
@@ -45,20 +45,20 @@ local activeCsarMissions = MedorentCSAR:_CountActiveDownedPilots()
 
 -- Modifica messaggi Standard
 function MedorentCSAR:OnAfterPilotDown(From, Event, To, SpawnedGroup, Frequency, Leadername, CoordinatesText)
-    MESSAGE:New(string.format("📻 Il pilota %s è abbattuto! Frequenza CSAR: %s KHz, coordinate: %s.", 
+    MESSAGE:New(string.format("Il pilota %s è abbattuto! Frequenza CSAR: %s KHz, coordinate: %s.", 
                               Leadername, Frequency, CoordinatesText), 15):ToAll()
 end
 
 -- 🔧 DEBUG: Evento per monitorare avvicinamenti
 function MedorentCSAR:OnAfterApproach(from, event, to, heliname, groupname)
     local activeCsarMissions = self:_CountActiveDownedPilots()
-    MESSAGE:New("🚁 Elicottero in avvicinamento al pilota abbattuto. Richiedi fumogeno se necessario.", 15):ToAll()
+    MESSAGE:New("Elicottero in avvicinamento al pilota abbattuto. Richiedi fumogeno se necessario.", 15):ToAll()
     env.info(string.format("CSAR DEBUG - Approach: %s approaching %s", heliname, groupname))
 end
 
 -- 🔧 DEBUG: Evento per monitorare imbarco
 function MedorentCSAR:OnAfterBoarded(from, event, to, heliname, groupname, description)
-    MESSAGE:New("✅ Pilota a bordo! Torna alla base più vicina per completare il CSAR.", 20):ToAll()
+    MESSAGE:New("Pilota a bordo! Torna alla base più vicina per completare il CSAR.", 20):ToAll()
     env.info(string.format("CSAR DEBUG - Boarded: %s boarded to %s", groupname, heliname))
 end
 
@@ -75,7 +75,7 @@ local function startCsarMission()
     if activeCsarMissions <= 3 then
         -- Avvia una nuova missione CSAR nella zona CSAR
         MedorentCSAR:SpawnCSARAtZone(csarZone, coalition.side.BLUE, "DSMC_NoUp_", true, false, false, "CSAR-Random")
-        MESSAGE:New("📊 Missioni CSAR attive: " .. activeCsarMissions, 30):ToAll()
+        MESSAGE:New("Missioni CSAR attive: " .. activeCsarMissions, 30):ToAll()
     end
 end
 
