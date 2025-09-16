@@ -14,25 +14,25 @@ MedorentCSAR.topmenuname = "Medorent Combat Search & Rescue" -- Imposta il nome 
 MedorentCSAR.useprefix = true -- Abilita il prefisso per i CSAR
 MedorentCSAR.csarPrefix = {"Damascus"} -- Imposta i prefissi per i CSAR
 
--- 🔧 FIX ISSUE #5: PARAMETRI MANCANTI PER RILASCIO ALLE BASI AEREE
-MedorentCSAR.allowFARPRescue = true          -- ✅ CRITICO: Permette rilascio alle basi aeree/FARP
-MedorentCSAR.FARPRescueDistance = 1500       -- ✅ CRITICO: Distanza massima dalla base (1.5km)
-MedorentCSAR.mashprefix = {"MASH", "Ospedale", "Hospital"}  -- ✅ Zone MASH riconosciute
+-- FIX ISSUE #5: PARAMETRI MANCANTI PER RILASCIO ALLE BASI AEREE
+MedorentCSAR.allowFARPRescue = true          -- CRITICO: Permette rilascio alle basi aeree/FARP
+MedorentCSAR.FARPRescueDistance = 1500       -- CRITICO: Distanza massima dalla base (1.5km)
+MedorentCSAR.mashprefix = {"MASH", "Ospedale", "Hospital"}  -- Zone MASH riconosciute
 
 -- OTTIMIZZAZIONI PERFORMANCE CSAR
 MedorentCSAR.approachdist_far = 8000   -- Ottimizzazione: 5000m → 8000m (meno controlli)
 MedorentCSAR.approachdist_near = 4000  -- Ottimizzazione: 3000m → 4000m (meno controlli)
 
--- 🔧 DEBUG: AGGIUNGI LOGGING PER EVENTI CRITICI
+-- DEBUG: AGGIUNGI LOGGING PER EVENTI CRITICI
 function MedorentCSAR:OnAfterLanded(From, Event, To, HeliName, Airbase)
-    -- ✅ NUOVO: Debug per atterraggi
+    -- NUOVO: Debug per atterraggi
     local message = string.format("Elicottero %s atterrato alla base: %s", HeliName, Airbase:GetName())
     MESSAGE:New(message, 10):ToAll()
     env.info("CSAR DEBUG - Landed: " .. message)
 end
 
 function MedorentCSAR:OnAfterRescued(From, Event, To, HeliUnit, HeliName, PilotsSaved)
-    -- ✅ MIGLIORATO: Messaggio più chiaro + debug
+    -- MIGLIORATO: Messaggio più chiaro + debug
     local activeCsarMissions = self:_CountActiveDownedPilots()
     local message = string.format("CSAR COMPLETATO! %d piloti salvati da %s. Missioni attive: %d", 
                                  PilotsSaved, HeliName, activeCsarMissions)
@@ -49,14 +49,14 @@ function MedorentCSAR:OnAfterPilotDown(From, Event, To, SpawnedGroup, Frequency,
                               Leadername, Frequency, CoordinatesText), 15):ToAll()
 end
 
--- 🔧 DEBUG: Evento per monitorare avvicinamenti
+-- DEBUG: Evento per monitorare avvicinamenti
 function MedorentCSAR:OnAfterApproach(from, event, to, heliname, groupname)
     local activeCsarMissions = self:_CountActiveDownedPilots()
     MESSAGE:New("Elicottero in avvicinamento al pilota abbattuto. Richiedi fumogeno se necessario.", 15):ToAll()
     env.info(string.format("CSAR DEBUG - Approach: %s approaching %s", heliname, groupname))
 end
 
--- 🔧 DEBUG: Evento per monitorare imbarco
+-- DEBUG: Evento per monitorare imbarco
 function MedorentCSAR:OnAfterBoarded(from, event, to, heliname, groupname, description)
     MESSAGE:New("Pilota a bordo! Torna alla base più vicina per completare il CSAR.", 20):ToAll()
     env.info(string.format("CSAR DEBUG - Boarded: %s boarded to %s", groupname, heliname))
