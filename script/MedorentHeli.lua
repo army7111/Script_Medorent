@@ -4,10 +4,16 @@ local HeliReconLaserSpot = nil
 local LaserCode = 1687
 local AutoLaserEnabled = false
 
+-- Controlli sicurezza per le zone trigger convoy
 local triggerConvogli1 = ZONE:FindByName("TriggerConv1")
 local triggerConvogli2 = ZONE:FindByName("TriggerConv2")
 local triggerConvogli3 = ZONE:FindByName("TriggerConv3")
 local triggerConvogli4 = ZONE:FindByName("TriggerConv4")
+
+-- Verifica esistenza zone trigger
+if not (triggerConvogli1 and triggerConvogli2 and triggerConvogli3 and triggerConvogli4) then
+    env.warning("MedorentHeli: ATTENZIONE - Una o più zone trigger convoy mancanti nel ME")
+end
 
 local ConvoyStatus = {
     convoy1 = { active = false, group = nil, spawn = nil },
@@ -16,8 +22,15 @@ local ConvoyStatus = {
     convoy4 = { active = false, group = nil, spawn = nil }
 }
 
+-- Controllo sicurezza per HQ Group
 BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
-BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
+if BlueCCPositionable and BlueCCPositionable:IsAlive() then
+    BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
+    env.info("MedorentHeli: HeliOPS Command Center inizializzato correttamente")
+else
+    env.error("MedorentHeli: ERRORE CRITICO - Gruppo 'BLUE_HELICOMHQ' non trovato nel ME")
+    return -- Interrompi esecuzione script se HQ non esiste
+end
 
 local HeliMissions = MISSION:New(BlueHQ, "HeliOPS Missions", "Primary", "Missioni Heli Medorent", coalition.side.BLUE)
 
@@ -512,7 +525,12 @@ BastardiRandom:InitLimit( 8, 100 )
 
 function SpawnaBastardi()
     ZonatriggerBastardi = ZONE:FindByName("ZonaBastardi")
-    BastardiRandom:SpawnInZone(ZonatriggerBastardi, true)
+    if ZonatriggerBastardi then
+        BastardiRandom:SpawnInZone(ZonatriggerBastardi, true)
+        env.info("MedorentHeli: Spawn Bastardi eseguito correttamente in ZonaBastardi")
+    else
+        env.warning("MedorentHeli: ATTENZIONE - Zona 'ZonaBastardi' non trovata nel ME, spawn saltato")
+    end
 end
 
 local TIMERSpawnStinger = SCHEDULER:New(nil, SpawnaBastardi, {}, 0, 1800)

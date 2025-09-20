@@ -7,12 +7,21 @@ local CipratAwacsSpawn = SPAWN:New("CipratEW-Awacs")
   :InitLimit(1, 99)  -- limite a 99 respawn
   :OnSpawnGroup(
     function( spawnedGroup ) 
+      -- Impostazione callsign AWACS Darkstar
+      if spawnedGroup and spawnedGroup:IsAlive() then
+        spawnedGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
+        env.info("MedorentAwacs: AWACS Darkstar spawned e callsign impostato")
+      end
+      
       -- (Opzionale) Se vuoi impartire un'orbita sulla zona AWACSZone via script:
       local zona = ZONE:New("AWACSZone")
       if zona then
         -- Esempio di orbita a 25.000ft e 220 nodi
         local orbitTask = spawnedGroup:TaskOrbitCircleAtVec2(zona:GetVec2(), 7620, 280)
         spawnedGroup:SetTask(orbitTask, 1)
+        env.info("MedorentAwacs: AWACS in orbit su AWACSZone")
+      else
+        env.warning("MedorentAwacs: Zona AWACSZone non trovata, AWACS senza orbita")
       end
 
       -- Creo uno scheduler che ogni 60 secondi controlla il fuel

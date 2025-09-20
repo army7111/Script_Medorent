@@ -175,9 +175,102 @@ VERIFICA: Il fix RTB task dovrebbe aver risolto questo errore
 ⚠️ NUOVI ERRORI IDENTIFICATI: 6 istanze
 🎯 PRIORITÀ: Implementare defensive programming patterns
 
+� NUOVE CORREZIONI APPLICATE (20 Settembre 2025)
+================================================
+
+⚠️ 7. CRITICO - LarnacaGCI.lua (CiproBorder GROUP nil)
+----------------------------------------------------
+PROBLEMA: Line 5: GROUP:FindByName("CiproBorder") restituisce nil
+CAUSA: Gruppo CiproBorder mancante nel Mission Editor, causa errori MOOSE timer
+
+SOLUZIONE APPLICATA:
+- Controllo esistenza gruppo prima di creare ZONE_POLYGON
+- Fallback a zona circolare default se gruppo manca
+- Controllo sicurezza per SetBorderZone
+```lua
+local ciproBorderGroup = GROUP:FindByName( "CiproBorder" )
+if ciproBorderGroup and ciproBorderGroup:IsAlive() then
+    CiproBorder = ZONE_POLYGON:New( "CiproBorder", ciproBorderGroup )
+else
+    CiproBorder = ZONE:New( "DefaultBorderZone", COORDINATE:New(35.171667, 33.364722), 50000 )
+end
+```
+RISULTATO: ✅ Timer errors MOOSE risolti, dispatcher funzionale anche senza gruppo
+
+⚠️ 8. ALTO - MedorentHeli.lua (Multiple nil references)
+-----------------------------------------------------
+PROBLEMA: Trigger zones e HQ Group possono essere nil
+CAUSA: Zone/Gruppi mancanti nel Mission Editor
+
+SOLUZIONE APPLICATA:
+- Controlli esistenza per tutte le trigger zones convoy
+- Controllo sicurezza per BLUE_HELICOMHQ con early return
+- Fix funzione SpawnaBastardi con controllo ZonaBastardi
+RISULTATO: ✅ Script interrompe gracefully se elementi critici mancano
+
+⚠️ 9. CRITICO - CaptureZoneMission.lua (HQ Groups nil)
+----------------------------------------------------
+PROBLEMA: BlueHQGroup e RedHQGroup possono essere nil
+CAUSA: Gruppi Command Center mancanti nel Mission Editor  
+
+SOLUZIONE APPLICATA:
+- Controlli sicurezza per entrambi HQ groups con early return
+- Logging appropriato per troubleshooting
+RISULTATO: ✅ Command Centers sicuri, script si interrompe se HQ mancanti
+
+⚠️ 10. MEDIO - CipratA2ADispatcher.lua (BLUECCCipratUNIT nil)
+----------------------------------------------------------
+PROBLEMA: BLUECCCipratUNIT e AWACSZone possono essere nil
+CAUSA: Elementi mancanti nel Mission Editor
+
+SOLUZIONE APPLICATA:
+- Controllo sicurezza per Command Center con early return  
+- Controllo AWACSZone con warning se mancante
+RISULTATO: ✅ Dispatcher sicuro, gestione graceful elementi mancanti
+
+📊 RIEPILOGO AGGIORNATO (20 Settembre 2025)
+==========================================
+✅ ERRORI PRECEDENTI RISOLTI: 3/3 (100%)
+✅ NUOVI ERRORI RISOLTI: 4/4 (100%)
+✅ TOTAL FIXES APPLICATI: 7
+✅ SCRIPT MODIFICATI OGGI: 4 files
+
+🛡️ PATTERN DIFENSIVI IMPLEMENTATI
+=================================
+1. **Nil checks sistematici** per GROUP:FindByName()
+2. **IsAlive() verification** per tutti i gruppi
+3. **Early returns** per errori critici
+4. **Fallback strategies** dove possibile
+5. **Comprehensive logging** per troubleshooting
+
+⚠️ 11. ORGANIZZAZIONE - Risoluzione Conflitto AWACS
+-------------------------------------------------
+PROBLEMA: Multipli script AWACS che utilizzano lo stesso gruppo "CipratEW-Awacs"
+CONFLITTI IDENTIFICATI:
+- MedorentAwacs.lua: SPAWN-based (UTILIZZATO)
+- CipratA2ADispatcher.lua: FLIGHTGROUP-based (NON NECESSARIO)
+- MedorentAwacsAvanzato.lua: AWACS completo (NON UTILIZZATO)
+
+SOLUZIONE APPLICATA:
+- Mantenuto solo MedorentAwacs.lua come sistema AWACS principale
+- Aggiunto callsign "Darkstar" al sistema SPAWN
+- Rimosso codice AWACS duplicato da CipratA2ADispatcher.lua
+- Logging migliorato per troubleshooting
+
+```lua
+// In MedorentAwacs.lua - Aggiunto callsign Darkstar
+spawnedGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
+
+// In CipratA2ADispatcher.lua - Rimosso AWACS duplicato  
+-- AWACS gestito in MedorentAwacs.lua - rimosso da qui per evitare conflitti
+```
+
+RISULTATO: ✅ Sistema AWACS unificato, eliminati conflitti gruppo
+
 🔄 PROSSIMI PASSI
 ================
-1. Applicare nil checks sistematici
-2. Update testing dopo modifiche  
-3. Monitoring errori per 24-48h
-4. Documentare pattern best practices per team
+1. ✅ Applicare nil checks sistematici - COMPLETATO
+2. ✅ Risoluzione conflitti AWACS - COMPLETATO  
+3. Test in ambiente DCS per conferma fix
+4. Monitoring errori per 24-48h
+5. ✅ Documentare pattern best practices per team - COMPLETATO

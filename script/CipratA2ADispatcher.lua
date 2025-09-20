@@ -12,21 +12,18 @@
 
 -- AwacsFlightGroup:AddMission(AwacsPatrolAuftrag) -- Avvio script.
 -- -- Fine Awacs Example --
+-- Controllo sicurezza per Cipro Command Center
 BlueCCCipratPosi = GROUP:FindByName("BLUECCCipratUNIT")
-BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center", "Cipro Attack Command Center")
-CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
+if BlueCCCipratPosi and BlueCCCipratPosi:IsAlive() then
+    BlueHQCipratt = COMMANDCENTER:New(BlueCCCipratPosi, "Cipro Attack Command Center", "Cipro Attack Command Center")
+    CiprattMission = MISSION:New(BlueHQCipratt, "Cipro Attack Missions", "Primary", "Missioni A2A Cipro", coalition.side.BLUE)
+    env.info("CipratA2ADispatcher: Cipro Attack Command Center inizializzato correttamente")
+else
+    env.error("CipratA2ADispatcher: ERRORE CRITICO - Gruppo 'BLUECCCipratUNIT' non trovato nel ME")
+    return -- Interrompi esecuzione script
+end
 
-AwacsTrigger = ZONE:New("AWACSZone")
-AwacsCipratt = AUFTRAG:NewAWACS(AwacsTrigger:GetCoordinate(), 30000, 400, 359, 30)
-
-AwacsCipratt:SetTime("07:00", "20:00")
--- AwacsCipratt:SetTACAN(29, "AWA")
-AwacsCipratt:SetRadio(247)
-AwacsCipratt:SetImmortal(true)
-
-AwacsCiprattGroup = FLIGHTGROUP:New("CipratEW-Awacs")
-AwacsCiprattGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
-AwacsCiprattGroup:AddMission(AwacsCipratt)
+-- AWACS gestito in MedorentAwacs.lua - rimosso da qui per evitare conflitti
 
 
 CiprattGroup = SET_GROUP:New()
