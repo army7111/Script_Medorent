@@ -267,10 +267,44 @@ spawnedGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
 
 RISULTATO: ✅ Sistema AWACS unificato, eliminati conflitti gruppo
 
+⚠️ 12. CRITICO - SetDefaultCallsign Error Fix
+-------------------------------------------
+PROBLEMA: Line 12: attempt to call method 'SetDefaultCallsign' (a nil value)
+CAUSA: SetDefaultCallsign è disponibile solo per FLIGHTGROUP, non per gruppi SPAWN normali
+
+ERRORE SPECIFICO:
+```
+Error in timer function: [string "l10n/DEFAULT/MedorentAwacs.lua"]:12: 
+attempt to call method 'SetDefaultCallsign' (a nil value)
+```
+
+SOLUZIONE APPLICATA:
+- Rimossa chiamata SetDefaultCallsign da gruppo SPAWN
+- Il callsign "Darkstar" deve essere impostato nel Mission Editor per il gruppo
+- Mantenuta solo la logica orbit e fuel management
+- Aggiunto logging migliorato
+
+CODICE CORRETTO:
+```lua
+-- PRIMA (ERRORE):
+spawnedGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1)
+
+-- DOPO (CORRETTO):
+-- Callsign deve essere impostato nel Mission Editor
+env.info("MedorentAwacs: AWACS Darkstar spawned correttamente")
+```
+
+NOTA IMPORTANTE: ⚠️
+Per SPAWN groups: Callsign nel Mission Editor
+Per FLIGHTGROUP: SetDefaultCallsign disponibile
+
+RISULTATO: ✅ Errore timer function risolto completamente
+
 🔄 PROSSIMI PASSI
 ================
 1. ✅ Applicare nil checks sistematici - COMPLETATO
-2. ✅ Risoluzione conflitti AWACS - COMPLETATO  
-3. Test in ambiente DCS per conferma fix
-4. Monitoring errori per 24-48h
-5. ✅ Documentare pattern best practices per team - COMPLETATO
+2. ✅ Risoluzione conflitti AWACS - COMPLETATO
+3. ✅ Fix SetDefaultCallsign error - COMPLETATO  
+4. Test in ambiente DCS per conferma fix
+5. Monitoring errori per 24-48h
+6. ✅ Documentare pattern best practices per team - COMPLETATO

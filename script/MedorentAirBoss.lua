@@ -21,8 +21,12 @@ airbossStennis:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% caric
 -- FIX PER EventData.IniUnit=nil nei CRASH events (AIRBOSS07335)
 function airbossStennis:OnEventCrash(EventData)
   if EventData.IniUnit ~= nil then
-    -- Chiama la funzione originale solo se IniUnit è valido
-    self:EventFunction(EventData)
+    local unit = EventData.IniUnit
+    local unitName = unit:GetName() or "Unknown"
+    -- Log solo aerei BLU (coalition 2) - AIRBOSS gestisce solo unità alleate
+    if unit:GetCoalition() == coalition.side.BLUE then
+      env.info(string.format("AIRBOSS CarrierStennis: CRASH rilevato - Unit BLU: %s", unitName))
+    end
   else
     env.info("AIRBOSS CarrierStennis: CRASH event ignorato - EventData.IniUnit=nil")
   end
@@ -53,8 +57,12 @@ airbossRoosevelt:SetBeaconRefresh(1800)     -- Default 1200s → 1800s (-33% car
 -- FIX PER EventData.IniUnit=nil nei CRASH events (AIRBOSS07353)
 function airbossRoosevelt:OnEventCrash(EventData)
   if EventData.IniUnit ~= nil then
-    -- Chiama la funzione originale solo se IniUnit è valido
-    self:EventFunction(EventData)
+    local unit = EventData.IniUnit
+    local unitName = unit:GetName() or "Unknown"
+    -- Log solo aerei BLU (coalition 2) - AIRBOSS gestisce solo unità alleate
+    if unit:GetCoalition() == coalition.side.BLUE then
+      env.info(string.format("AIRBOSS CarrierRoosevelt: CRASH rilevato - Unit BLU: %s", unitName))
+    end
   else
     env.info("AIRBOSS CarrierRoosevelt: CRASH event ignorato - EventData.IniUnit=nil")
   end
