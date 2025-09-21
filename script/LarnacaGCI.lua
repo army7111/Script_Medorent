@@ -11,8 +11,8 @@ local DetectionSetGroup = SET_GROUP:New()
 DetectionSetGroup:FilterPrefixes({"CiproEW"})  -- Prefisso unità EW nel ME
 DetectionSetGroup:FilterStart()
 
--- Crea area di detection con raggio 30km per ogni unità EW
-local Detection = DETECTION_AREAS:New(DetectionSetGroup, 30000)
+-- Crea area di detection con raggio 100km per ogni unità EW
+local Detection = DETECTION_AREAS:New(DetectionSetGroup, 100000)
 
 -- ==================================================
 -- 2. CREAZIONE A2A DISPATCHER
@@ -130,8 +130,8 @@ A2ADispatcher:SetSquadronGrouping("RedGCIMig29", 4)  -- Max 4 MiG per gruppo
 -- 9. PARAMETRI TATTICI
 -- ==================================================
 A2ADispatcher:SetEngageRadius(80000)       -- Raggio ingaggio: 80km dal border
-A2ADispatcher:SetGciRadius(150000)         -- Raggio reazione GCI: 150km
-A2ADispatcher:SetDisengageRadius(120000)   -- Raggio disimpegno: 120km
+A2ADispatcher:SetGciRadius(120000)         -- Raggio reazione GCI: 120km
+A2ADispatcher:SetDisengageRadius(150000)   -- Raggio disimpegno: 150km
 
 -- ==================================================
 -- 10. OPZIONI DEBUG E VISUALIZZAZIONE
