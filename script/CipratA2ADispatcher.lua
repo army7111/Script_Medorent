@@ -1,17 +1,3 @@
--- -- Awacs Example --
--- local AwacsPatrolZone = ZONE:New("AwacsPatrol")
--- local AwacsPatrolAuftrag = AUFTRAG:NewAWACS(AwacsPatrolZone:GetCoordinate(), 30000, 350, 232, 70)
--- AwacsPatrolAuftrag:SetTime("8:00", "20:00") -- l'orario di operazioni in Missione , l'awacs tornerà automaticamente alla base per refuel e ritornerà in volo
--- AwacsPatrolAuftrag:SetTACAN(29, "AWA") -- TACAN e codice morse 
--- AwacsPatrolAuftrag:SetRadio(247) -- Frequenza radio che utilizzerà l'awacs
--- AwacsPatrolAuftrag:SetImmortal(true) -- Impostato come immortale per evitare problemi
-
--- -- Ora verrà creato il FLIGHTGROUP , quindi verrà utilizzata una unità chiamata "RECON - E3" (nome del gruppo) messa nel ME con l'opzione "Late Activation" attivata.
--- local AwacsFlightGroup=FLIGHTGROUP:New("RECON - E3") -- dichiarazione variabile "AwacsFlightGroup" utilizzando la classe "FLIGHTGROUP"
--- AwacsFlightGroup:SetDefaultCallsign(CALLSIGN.AWACS.Darkstar, 1) -- impostazione del CALLSIGN che verrà utilizzato dall'Awacs 
-
--- AwacsFlightGroup:AddMission(AwacsPatrolAuftrag) -- Avvio script.
--- -- Fine Awacs Example --
 -- Controllo sicurezza per Cipro Command Center
 BlueCCCipratPosi = GROUP:FindByName("BLUECCCipratUNIT")
 if BlueCCCipratPosi and BlueCCCipratPosi:IsAlive() then
@@ -22,9 +8,6 @@ else
     env.error("CipratA2ADispatcher: ERRORE CRITICO - Gruppo 'BLUECCCipratUNIT' non trovato nel ME")
     return -- Interrompi esecuzione script
 end
-
--- AWACS gestito in MedorentAwacs.lua - rimosso da qui per evitare conflitti
-
 
 CiprattGroup = SET_GROUP:New()
 CiprattGroup:FilterPrefixes("Bassel Al-Assad_")

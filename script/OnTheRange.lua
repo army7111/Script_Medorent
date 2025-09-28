@@ -24,7 +24,7 @@ else
 end
 Rayakrange:SetAutosaveOn()
 Rayakrange:SetTargetSheet("C:\\temp\\MedorentCache\\RANGE\\","RayakRange")
-Rayakrange:SetFunkManOn()
+-- Rayakrange:SetFunkManOn()  -- DISATTIVATO: Causa errori con desanitize disabilitato
 -- Imposta cartella di salvataggio storico Range
 
 -- Start Range

@@ -29,7 +29,6 @@ local czCypro = {
 WarehousesCypro = {}
 WarehouseNasi = {}
 local warehouseData = {
-    {table = WarehouseNasi, name = "An Nasiriyah", staticName = "WHAnNasiriyah", warehouseName = "Warehouse An Nasiriyah", airport = "An_Nasiriyah"},
     {table = WarehousesCypro, name = "Paphos", staticName = "WHPAPHOS", warehouseName = "Warehouse Paphos", airport = "Paphos"},
     {table = WarehousesCypro, name = "Akrotiri", staticName = "WHAKROTIRI", warehouseName = "Warehouse Akrotiri", airport = "Akrotiri"},
     {table = WarehousesCypro, name = "Pinarbashi", staticName = "WHPINARBASHI", warehouseName = "Warehouse Pinarbashi", airport = "Pinarbashi"},
