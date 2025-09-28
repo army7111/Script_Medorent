@@ -1,8 +1,8 @@
 -- ===== LARNACA GCI SYSTEM =====
 -- Sistema A2A Dispatcher per controllo spazio aereo di Cipro
 -- CAP persistente (2x Su-30) + GCI reattivo (MiG-29)
--- Versione: 1.1 - Correzione BorderZone
--- Data: 20/09/2025
+-- Versione: 1.2 - Ottimizzazione distanze rilevamento e spawn/despawn
+-- Data: 28/09/2024
 
 -- ==================================================
 -- 1. CONFIGURAZIONE SISTEMA DETECTION
@@ -11,8 +11,8 @@ local DetectionSetGroup = SET_GROUP:New()
 DetectionSetGroup:FilterPrefixes({"CiproEW"})  -- Prefisso unità EW nel ME
 DetectionSetGroup:FilterStart()
 
--- Crea area di detection con raggio 100km per ogni unità EW
-local Detection = DETECTION_AREAS:New(DetectionSetGroup, 100000)
+-- Crea area di detection con raggio 150km per ogni unità EW (aumentato per CAP/GCI)
+local Detection = DETECTION_AREAS:New(DetectionSetGroup, 150000)
 
 -- ==================================================
 -- 2. CREAZIONE A2A DISPATCHER
@@ -53,9 +53,9 @@ end
 -- ==================================================
 -- Queste impostazioni si applicano a TUTTI gli squadron se non sovrascritte
 A2ADispatcher:SetDefaultTakeoff(AI_A2A_DISPATCHER.Takeoff.Air)  -- Default: spawn in aria
-A2ADispatcher:SetDefaultTakeoffInAir(3000, 5000)                -- Altitudine spawn 3000-5000m
+A2ADispatcher:SetDefaultTakeoffInAir(3000, 5000)                -- Altitudine spawn 3000-5000m sopra l'aeroporto
 A2ADispatcher:SetDefaultLandingAtRunway()                        -- Atterraggio su pista
-A2ADispatcher:SetDefaultFuelThreshold(0.25)                      -- RTB al 25% carburante
+A2ADispatcher:SetDefaultFuelThreshold(0.20)                      -- RTB al 20% carburante (ottimizzato)
 
 -- ==================================================
 -- 5. DEFINIZIONE SQUADRONS
@@ -99,12 +99,12 @@ if BorderZone then
         800                     -- Velocità massima (km/h)
     )
     
-    -- Mantieni sempre 2 Su-30 in CAP
+    -- Mantieni sempre 2 Su-30 in CAP con timing ottimizzato
     A2ADispatcher:SetSquadronCapInterval(
         "CiproSU30Squadron",    -- Squadron
         2,                      -- Numero di aerei sempre in CAP
-        30,                     -- Tempo minimo tra spawn (secondi)
-        60,                     -- Tempo massimo tra spawn (secondi)
+        60,                     -- Tempo minimo tra spawn (secondi) - aumentato per evitare accumulo
+        120,                    -- Tempo massimo tra spawn (secondi) - aumentato per gestione risorse
         1                       -- Fill rate (velocità di rimpiazzo)
     )
 else
@@ -127,11 +127,11 @@ A2ADispatcher:SetSquadronOverhead("RedGCIMig29", 1.0)
 A2ADispatcher:SetSquadronGrouping("RedGCIMig29", 4)  -- Max 4 MiG per gruppo
 
 -- ==================================================
--- 9. PARAMETRI TATTICI
+-- 9. PARAMETRI TATTICI (OTTIMIZZATI)
 -- ==================================================
-A2ADispatcher:SetEngageRadius(80000)       -- Raggio ingaggio: 80km dal border
-A2ADispatcher:SetGciRadius(120000)         -- Raggio reazione GCI: 120km
-A2ADispatcher:SetDisengageRadius(150000)   -- Raggio disimpegno: 150km
+A2ADispatcher:SetEngageRadius(100000)       -- Raggio ingaggio: 100km dal border (aumentato)
+A2ADispatcher:SetGciRadius(150000)          -- Raggio reazione GCI: 150km (aumentato per migliore copertura)
+A2ADispatcher:SetDisengageRadius(180000)    -- Raggio disimpegno: 180km (aumentato proporzionalmente)
 
 -- ==================================================
 -- 10. OPZIONI DEBUG E VISUALIZZAZIONE
@@ -139,7 +139,7 @@ A2ADispatcher:SetDisengageRadius(150000)   -- Raggio disimpegno: 150km
 -- Abilita display tattico per debug (decommentare se necessario)
 -- A2ADispatcher:SetTacticalDisplay(true)
 
--- Event handlers per monitoraggio
+-- Event handlers per monitoraggio e gestione ottimizzata del ciclo di vita
 function A2ADispatcher:OnAfterSpawn(From, Event, To, SpawnGroup, SpawnedGroup)
     if SpawnedGroup and SpawnedGroup:IsAlive() then
         local groupName = SpawnedGroup:GetName()
@@ -148,9 +148,9 @@ function A2ADispatcher:OnAfterSpawn(From, Event, To, SpawnGroup, SpawnedGroup)
         if leader then
             local coord = leader:GetCoordinate()
             local alt = coord:GetLandHeight()
-            env.info(string.format("LarnacaGCI: SPAWN - %s (%d aerei) - Alt: %dm", groupName, groupSize, alt))
+            env.info(string.format("LarnacaGCI: SPAWN - %s (%d aerei) - Alt: %dm - Spawn in volo sopra aeroporto", groupName, groupSize, alt))
         else
-            env.info(string.format("LarnacaGCI: SPAWN - %s (%d aerei)", groupName, groupSize))
+            env.info(string.format("LarnacaGCI: SPAWN - %s (%d aerei) - Spawn in volo sopra aeroporto", groupName, groupSize))
         end
     end
 end
@@ -158,7 +158,7 @@ end
 function A2ADispatcher:OnAfterLand(From, Event, To, SpawnGroup, SpawnedGroup, AirbaseName)
     if SpawnedGroup and SpawnedGroup:IsAlive() then
         local groupName = SpawnedGroup:GetName()
-        env.info(string.format("LarnacaGCI: LAND - %s at %s", groupName, AirbaseName or "unknown"))
+        env.info(string.format("LarnacaGCI: LAND - %s at %s - Despawn automatico attivato", groupName, AirbaseName or "unknown"))
     end
 end
 
@@ -166,7 +166,15 @@ end
 function A2ADispatcher:OnAfterCrash(From, Event, To, SpawnGroup, SpawnedGroup)
     if SpawnedGroup then
         local groupName = SpawnedGroup:GetName() or "Unknown"
-        env.warning(string.format("LarnacaGCI: CRASH - %s", groupName))
+        env.warning(string.format("LarnacaGCI: CRASH - %s - Sistema gestirà respawn automatico", groupName))
+    end
+end
+
+-- Event handler per RTB (Return to Base) - gestione ottimizzata carburante
+function A2ADispatcher:OnAfterRTB(From, Event, To, SpawnGroup, SpawnedGroup)
+    if SpawnedGroup and SpawnedGroup:IsAlive() then
+        local groupName = SpawnedGroup:GetName()
+        env.info(string.format("LarnacaGCI: RTB - %s ritorna alla base per carburante - Despawn automatico", groupName))
     end
 end
 
@@ -189,7 +197,7 @@ if BorderZone then
 else
     env.info("Border Zone: NON CONFIGURATA!")
 end
-env.info("Engage Range: 80km | GCI Range: 100km")
+env.info("Engage Range: 100km | GCI Range: 150km | Detection Range: 150km")
 env.info("========================================")
 
 -- ==================================================
