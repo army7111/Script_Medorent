@@ -1,7 +1,7 @@
 -- ===== LARNACA GCI SYSTEM =====
 -- Sistema A2A Dispatcher per controllo spazio aereo di Cipro
--- CAP persistente (2x Su-30) + GCI reattivo (MiG-29)
--- Versione: 1.1 - Correzione BorderZone
+-- CAP persistente (3 formazioni da 2x Su-30) + GCI reattivo (MiG-29)
+-- Versione: 1.2 - Aumento CAP a 3 formazioni da 2 unità
 -- Data: 20/09/2025
 
 -- ==================================================
@@ -99,14 +99,17 @@ if BorderZone then
         800                     -- Velocità massima (km/h)
     )
     
-    -- Mantieni sempre 2 Su-30 in CAP
+    -- Mantieni sempre 6 Su-30 in CAP (3 formazioni da 2 unità)
     A2ADispatcher:SetSquadronCapInterval(
         "CiproSU30Squadron",    -- Squadron
-        2,                      -- Numero di aerei sempre in CAP
+        6,                      -- Numero di aerei sempre in CAP
         30,                     -- Tempo minimo tra spawn (secondi)
         60,                     -- Tempo massimo tra spawn (secondi)
         1                       -- Fill rate (velocità di rimpiazzo)
     )
+    
+    -- Grouping: 2 aerei per formazione CAP
+    A2ADispatcher:SetSquadronGrouping("CiproSU30Squadron", 2)
 else
     env.error("LarnacaGCI: BorderZone non definita, CAP non configurato!")
 end
@@ -181,7 +184,7 @@ A2ADispatcher:Start()
 env.info("========================================")
 env.info("=== LARNACA GCI SYSTEM ATTIVO ===")
 env.info("========================================")
-env.info("CAP Squadron: 2x Su-30 da Larnaca (Hot Start)")
+env.info("CAP Squadron: 6x Su-30 (3 formazioni da 2) da Larnaca (Hot Start)")
 env.info("GCI Squadron: MiG-29 da Larnaca (Hot Start)")
 env.info("Detection: Unità con prefisso 'CiproEW'")
 if BorderZone then
