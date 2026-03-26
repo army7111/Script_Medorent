@@ -192,7 +192,7 @@ if BorderZone then
 else
     env.info("Border Zone: NON CONFIGURATA!")
 end
-env.info("Engage Range: 80km | GCI Range: 100km")
+env.info("Engage Range: 80km | GCI Range: 120km")
 env.info("========================================")
 
 -- ==================================================

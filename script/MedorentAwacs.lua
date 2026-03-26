@@ -16,7 +16,11 @@
 -- =========================================================================
 
 -- Verifica esistenza zona AWACSZone nel Mission Editor
-local AwacsPatrolZone = ZONE:New("AWACSZone")
+-- ZONE:New() non restituisce nil se la zona manca; trigger.misc.getZone() è il check affidabile
+local AwacsPatrolZone = nil
+if trigger.misc.getZone("AWACSZone") then
+    AwacsPatrolZone = ZONE:New("AWACSZone")
+end
 if not AwacsPatrolZone then
     env.error("MedorentAwacs: ERRORE - Zona 'AWACSZone' non trovata nel Mission Editor!")
     env.error("MedorentAwacs: Creare una zona chiamata 'AWACSZone' nel ME per l'orbita AWACS")

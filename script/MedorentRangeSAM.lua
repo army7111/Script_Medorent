@@ -69,29 +69,29 @@ local RangeZone = nil
 local RangeSAMGroups = {}
 local RangeEWRGroups = {}
 local RangeSAMMenus = {}
-local MessageGroup = nil
 
 -- =========================================================================
 -- FUNZIONI UTILITÀ E LOGGING
 -- =========================================================================
+
+-- Helper messaggi: usa MESSAGE direttamente, senza dipendere da un GROUP specifico
+local function SendMessage(msg, duration)
+    MESSAGE:New(msg, duration or 10):ToCoalition(coalition.side.BLUE)
+end
+
 local function LogInfo(message)
-    local timestamp = os.date("%H:%M:%S")
-    local logMessage = string.format("[%s] RangeSAM: %s", timestamp, message)
+    -- os.date() non disponibile in DCS (rimosso da MissionScripting.lua)
+    local logMessage = string.format("RangeSAM: %s", message)
     env.info(logMessage)
-    
-    if RANGE_SAM_CONFIG.debug_mode and MessageGroup then
-        MessageGroup:MessageToCoalition(logMessage, 8, coalition.side.BLUE)
+    if RANGE_SAM_CONFIG.debug_mode then
+        SendMessage(logMessage, 8)
     end
 end
 
 local function LogError(message)
-    local timestamp = os.date("%H:%M:%S")
-    local logMessage = string.format("[%s] RangeSAM ERROR: %s", timestamp, message)
+    local logMessage = string.format("RangeSAM ERROR: %s", message)
     env.error(logMessage)
-    
-    if MessageGroup then
-        MessageGroup:MessageToCoalition("❌ " .. logMessage, 15, coalition.side.BLUE)
-    end
+    SendMessage("ERRORE: " .. logMessage, 15)
 end
 
 -- =========================================================================
@@ -226,11 +226,7 @@ local function ConfiguraEventi()
                         RespawnSAM(groupName)
                     end, {}, 300)
                     
-                    MessageGroup:MessageToCoalition(
-                        "🔄 SAM Range distrutto: " .. groupName .. " - Respawn programmato in 5 minuti", 
-                        15, 
-                        coalition.side.BLUE
-                    )
+                    SendMessage("SAM Range distrutto: " .. groupName .. " - Respawn programmato in 5 minuti", 15)
                 end
             end
         end
@@ -276,11 +272,7 @@ function RespawnSAM(groupName)
             end
             
             LogInfo("SAM respawnato con successo: " .. groupName)
-            MessageGroup:MessageToCoalition(
-                "✅ SAM Range respawnato: " .. groupName .. " - Sistema operativo", 
-                10, 
-                coalition.side.BLUE
-            )
+            SendMessage("SAM Range respawnato: " .. groupName .. " - Sistema operativo", 10)
         else
             LogError("Fallimento spawn per: " .. groupName)
         end
@@ -382,13 +374,13 @@ function MostraStatusSAM()
         status = status .. "🌐 Sistema IADS: INATTIVO\n"
     end
     
-    MessageGroup:MessageToCoalition(status, 20, coalition.side.BLUE)
+    SendMessage(status, 20)
 end
 
 function MostraTargetTracciati()
     -- Questa funzione mostrerebbe i target tracciati dal sistema
     -- Implementazione dipende dalle capacità specifiche di Skynet
-    MessageGroup:MessageToCoalition("🔍 Funzione Target Tracciati in sviluppo", 10, coalition.side.BLUE)
+    SendMessage("Funzione Target Tracciati in sviluppo", 10)
 end
 
 function DisattivaTuttiSAM()
@@ -396,7 +388,7 @@ function DisattivaTuttiSAM()
     
     if RangeSkynetIADS then
         RangeSkynetIADS:deactivate()
-        MessageGroup:MessageToCoalition("🔴 Sistema Range SAM DISATTIVATO", 15, coalition.side.BLUE)
+        SendMessage("Sistema Range SAM DISATTIVATO", 15)
     end
 end
 
@@ -405,7 +397,7 @@ function RiattivaTuttiSAM()
     
     if RangeSkynetIADS then
         RangeSkynetIADS:activate()
-        MessageGroup:MessageToCoalition("🟢 Sistema Range SAM RIATTIVATO", 15, coalition.side.BLUE)
+        SendMessage("Sistema Range SAM RIATTIVATO", 15)
     end
 end
 
@@ -420,7 +412,7 @@ function ResetSistemaIADS()
     -- Aspetta 3 secondi e reinizializza
     SCHEDULER:New(nil, function()
         InizializzaSkynetIADS()
-        MessageGroup:MessageToCoalition("🔄 Sistema Range SAM RESETATO e RIATTIVATO", 15, coalition.side.BLUE)
+        SendMessage("Sistema Range SAM RESETATO e RIATTIVATO", 15)
     end, {}, 3)
 end
 
@@ -435,11 +427,7 @@ local function IntegrazioneRange()
         -- Aggiungi event handler per quando inizia una sessione di training
         -- Questo può essere espanso per gestire la modalità training
         
-        MessageGroup:MessageToCoalition(
-            "🎯 Range SAM System integrato con Range Training", 
-            10, 
-            coalition.side.BLUE
-        )
+        SendMessage("Range SAM System integrato con Range Training", 10)
     else
         LogInfo("Sistema Range esistente non rilevato")
     end
@@ -451,11 +439,8 @@ end
 local function AvviaRangeSAM()
     LogInfo("=== AVVIO RANGE SAM SYSTEM ===")
     
-    -- Crea gruppo messaggi per comunicazioni
-    MessageGroup = GROUP:FindByName("MessageGroup") or MESSAGE:New("", 1)
-    
     -- Messaggio di caricamento
-    MESSAGE:New("🎯 MEDORENT RANGE SAM SYSTEM", 15):ToAll()
+    MESSAGE:New("MEDORENT RANGE SAM SYSTEM", 15):ToAll()
     MESSAGE:New("Skynet IADS per zona Range in caricamento...", 10):ToAll()
     
     -- Verifica prerequisiti
@@ -504,7 +489,7 @@ function ShutdownRangeSAM()
     end
     RangeSAMMenus = {}
     
-    MessageGroup:MessageToCoalition("🔴 Range SAM System spento", 10, coalition.side.BLUE)
+    SendMessage("Range SAM System spento", 10)
     LogInfo("Range SAM System shutdown completato")
 end
 

@@ -59,11 +59,8 @@ SpawnHeliRecon = SPAWN:New("HeliRecon")
 SpawnHeliRecon.InitKeepUnitNames = true
 SpawnHeliRecon:InitLimit(1, 100)
 
-local HeliReconDetection = nil
-local PlayerTaskDispatcher = nil
-local HeliReconLaserSpot = nil
-local LaserCode = 1686
-local AutoLaserEnabled = false
+-- NOTA: HeliReconDetection, PlayerTaskDispatcher, HeliReconLaserSpot, LaserCode, AutoLaserEnabled
+-- sono già dichiarati all'inizio del file (LaserCode = 1687). Dichiarazioni duplicate rimosse.
 
 function InitializePlayerTaskSystem()
     local heliReconGroup = SpawnHeliRecon:GetFirstAliveGroup()
@@ -100,11 +97,12 @@ function InitializeLaserSystem(heliReconGroup)
         -- Crea il sistema SPOT per il laser designation
         HeliReconLaserSpot = SPOT:New(heliReconGroup:GetUnit(1))
         
-        -- Aggiungi evento per laser automatico quando vengono rilevati nuovi target
+        -- Aggiungi callback FSM per laser automatico quando vengono rilevati nuovi target
+        -- EVENTS.DetectedNew non esiste in MOOSE; il metodo corretto è il callback FSM OnAfterDetectedItem
         if AutoLaserEnabled then
-            HeliReconDetection:HandleEvent(EVENTS.DetectedNew, function(Detection, DetectedItem)
+            function HeliReconDetection:OnAfterDetectedItem(From, Event, To, DetectedItem)
                 LaserDetectedTargets(DetectedItem)
-            end)
+            end
         end
         
         env.info(string.format("HeliRecon Laser System initialized - Laser Code: %d, Auto Laser: %s", LaserCode, AutoLaserEnabled and "ON" or "OFF"))
@@ -253,13 +251,13 @@ local function SpawnSingleConvoy(convoyId, zone)
         convoy.active = true
         BlueHQ:MessageToCoalition(string.format("SUCCESSO %s attivato con successo", convoyId), 10, coalition.side.BLUE)
         
-        function newGroup:OnEventDead()
+        newGroup:HandleEvent(EVENTS.Dead, function(self, eventData)
             env.info(string.format("CONVOY DEBUG: %s destroyed", convoyId))
             if convoy then
                 convoy.active = false
                 convoy.group = nil
             end
-        end
+        end)
         
         return true
     else
