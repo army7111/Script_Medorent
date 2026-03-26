@@ -22,17 +22,12 @@ local ConvoyStatus = {
     convoy4 = { active = false, group = nil, spawn = nil }
 }
 
--- Controllo sicurezza per HQ Group
-BlueCCPositionable = GROUP:FindByName("BLUE_HELICOMHQ")
-if BlueCCPositionable and BlueCCPositionable:IsAlive() then
-    BlueHQ = COMMANDCENTER:New(BlueCCPositionable, "HeliOPS Command Center", "HeliOPS Command Center")
-    env.info("MedorentHeli: HeliOPS Command Center inizializzato correttamente")
-else
-    env.error("MedorentHeli: ERRORE CRITICO - Gruppo 'BLUE_HELICOMHQ' non trovato nel ME")
-    return -- Interrompi esecuzione script se HQ non esiste
+-- BlueHQ: wrapper messaggi compatibile (COMMANDCENTER/MISSION rimossi da MOOSE develop)
+BlueHQ = {}
+function BlueHQ:MessageToCoalition(text, duration, _)
+    trigger.action.outTextForCoalition(coalition.side.BLUE, tostring(text), duration or 10)
 end
-
-local HeliMissions = MISSION:New(BlueHQ, "HeliOPS Missions", "Primary", "Missioni Heli Medorent", coalition.side.BLUE)
+env.info("MedorentHeli: BlueHQ messaging attivo (COMMANDCENTER non disponibile in MOOSE develop)")
 
 local OPSHeli = SET_GROUP:New()
 OPSHeli:FilterCoalitions("blue")
@@ -76,16 +71,13 @@ function InitializePlayerTaskSystem()
             HeliReconDetection:FilterCategories(Unit.Category.GROUND_UNIT)
             HeliReconDetection:Start()
             
-            -- Configurazione Task Dispatcher per GIOCATORI
-            PlayerTaskDispatcher = TASK_A2G_DISPATCHER:New(HeliMissions, OPSHeli, HeliReconDetection)
-            PlayerTaskDispatcher:SetSendMessages(true)
-            PlayerTaskDispatcher:Start()
+            -- TASK_A2G_DISPATCHER rimosso da MOOSE develop: solo Detection + Laser attivi
             
             -- Configurazione Sistema Laser HeliRecon
             InitializeLaserSystem(heliReconGroup)
             
-            BlueHQ:MessageToCoalition("Sistema Task Giocatori: Detection + Task Dispatcher + Laser System attivi per tutti gli elicotteri blu controllati da player", 15, coalition.side.BLUE)
-            env.info("Player Task System initialized - Tasks will be assigned to all blue helicopter players (including dynamic spawn from Damascus airport)")
+            BlueHQ:MessageToCoalition("HeliRecon: Detection + Laser System attivi", 15, coalition.side.BLUE)
+            env.info("HeliRecon Detection + Laser System initialized (TASK_A2G_DISPATCHER non disponibile in MOOSE develop)")
             return true
         end
     end
